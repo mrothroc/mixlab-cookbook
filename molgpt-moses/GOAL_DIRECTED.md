@@ -25,7 +25,7 @@ That is mode collapse, not useful steering. Elitist self-distillation should be 
 
 ## Run it
 
-Start from `checkpoints/molgpt_record.safetensors`. You need mixlab >= v0.73.0 on PATH.
+Start from `checkpoints/molgpt_record.safetensors`, the model trained in [MOLGPT_REPRODUCTION.md](MOLGPT_REPRODUCTION.md); run that leg first. You need mixlab >= v0.73.0 on PATH.
 
 ```bash
 export MIXLAB_MLX_CACHE_LIMIT_MB=4096

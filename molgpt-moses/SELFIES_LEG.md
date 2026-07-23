@@ -48,7 +48,12 @@ You need mixlab >= v0.73.0 on PATH.
 
 ```bash
 export MIXLAB_MLX_CACHE_LIMIT_MB=4096
+export MIXLAB_SCRIPTS=/path/to/mixlab/scripts       # mixlab prepare shells out here
 export PATH="$PWD/.venv/bin:$PATH"
+
+# data prep: SELFIES tokenizer + per-record shards from MOSES train
+python scripts/build_selfies_tokenizer.py           # -> data/selfies_tokenizer_content.json + alphabet
+python scripts/prep_selfies.py                      # -> data/selfies_record_shards/
 
 # train the SELFIES model (same recipe as the SMILES model, over SELFIES symbols)
 mixlab -mode arch -config configs/molgpt_selfies_record.json \

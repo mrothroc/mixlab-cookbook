@@ -37,7 +37,7 @@ The precompiled DFA table is useful only when the structure is shallow and bound
 
 ## Run it
 
-Run from this recipe directory with mixlab >= v0.73.0 on PATH and a Python environment containing RDKit and MOSES.
+Run from this recipe directory with mixlab >= v0.73.0 on PATH and a Python environment containing RDKit and MOSES. This leg constrains the SMILES model from [MOLGPT_REPRODUCTION.md](MOLGPT_REPRODUCTION.md), so run that leg first to produce `checkpoints/molgpt_record.safetensors`.
 
 ```bash
 export MIXLAB_MLX_CACHE_LIMIT_MB=4096
