@@ -1,0 +1,20 @@
+# no weights, large data, or venvs in the cookbook
+*.safetensors
+*.st
+*.pt
+*.bin
+**/checkpoints/
+**/.venv/
+**/__pycache__/
+*.smi
+*.jsonl
+.DS_Store
+
+# local SDLC/tooling state (weft, project db) — not part of the cookbook
+.weft/
+**/.weft/
+.projectdb/
+**/.projectdb/
+
+# IDE
+.idea/

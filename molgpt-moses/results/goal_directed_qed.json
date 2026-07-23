@@ -1,0 +1,31 @@
+{
+  "oracle": "QED",
+  "method": "elitist_hill_climb",
+  "rounds": 1,
+  "pool": 2000,
+  "elite_frac": 0.125,
+  "ft_steps": 40,
+  "eval_n": 5000,
+  "eval_seed": 20260721,
+  "baseline_mean_qed": 0.8033701345922574,
+  "optimized_mean_qed": 0.8930849133381832,
+  "lift": 0.08971477874592582,
+  "baseline_validity": 0.9888,
+  "optimized_validity": 0.9802,
+  "optimized_intdiv": 0.8423621118014324,
+  "per_round_trajectory": [
+    {
+      "round": 1,
+      "checkpoint_in": "checkpoints/molgpt_record.safetensors",
+      "pool_seed": 20270722,
+      "pool_validity": 0.986,
+      "pool_valid_count": 1972,
+      "pool_mean_qed": 0.8043079782863541,
+      "elite_count": 247,
+      "elite_mean_qed": 0.925444231496445,
+      "elite_max_qed": 0.9466523221135084,
+      "checkpoint_out": "checkpoints/goal_directed/round_01/model.safetensors"
+    }
+  ],
+  "bestofN_max_qed": 0.9481972824627332
+}

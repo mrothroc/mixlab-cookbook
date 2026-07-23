@@ -1,0 +1,42 @@
+{
+  "name": "molgpt_record",
+  "model_dim": 256,
+  "vocab_size": 30,
+  "seq_len": 64,
+  "max_positions": 64,
+  "mlp_mult": 4.0,
+  "tie_embeddings": true,
+  "norm_type": "layernorm",
+  "norm_affine": true,
+  "norm_eps": 1e-05,
+  "positional_embedding": "learned_absolute",
+  "embedding_dropout": 0.1,
+  "hidden_dropout": 0.1,
+  "attn_dropout": 0.1,
+  "blocks": [
+    {"type": "plain", "heads": 8, "attention_mask": "causal", "attn_bias": true, "ffn_activation": "gelu_new", "ffn_pre_norm": true, "ffn_bias": true},
+    {"type": "plain", "heads": 8, "attention_mask": "causal", "attn_bias": true, "ffn_activation": "gelu_new", "ffn_pre_norm": true, "ffn_bias": true},
+    {"type": "plain", "heads": 8, "attention_mask": "causal", "attn_bias": true, "ffn_activation": "gelu_new", "ffn_pre_norm": true, "ffn_bias": true},
+    {"type": "plain", "heads": 8, "attention_mask": "causal", "attn_bias": true, "ffn_activation": "gelu_new", "ffn_pre_norm": true, "ffn_bias": true},
+    {"type": "plain", "heads": 8, "attention_mask": "causal", "attn_bias": true, "ffn_activation": "gelu_new", "ffn_pre_norm": true, "ffn_bias": true},
+    {"type": "plain", "heads": 8, "attention_mask": "causal", "attn_bias": true, "ffn_activation": "gelu_new", "ffn_pre_norm": true, "ffn_bias": true},
+    {"type": "plain", "heads": 8, "attention_mask": "causal", "attn_bias": true, "ffn_activation": "gelu_new", "ffn_pre_norm": true, "ffn_bias": true},
+    {"type": "plain", "heads": 8, "attention_mask": "causal", "attn_bias": true, "ffn_activation": "gelu_new", "ffn_pre_norm": true, "ffn_bias": true}
+  ],
+  "training": {
+    "objective": "causal",
+    "optimizer": "adamw",
+    "lr": 0.0001,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "weight_decay": 0.1,
+    "embed_weight_decay": 0.0,
+    "scalar_weight_decay": 0.0,
+    "head_weight_decay": 0.0,
+    "grad_clip": 1.0,
+    "warmup_ratio": 0.05,
+    "steps": 150,
+    "seed": 42,
+    "batch_tokens": 27648
+  }
+}

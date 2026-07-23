@@ -1,0 +1,32 @@
+{
+  "n_samples": 12000,
+  "structural_valid_rate": 1.0,
+  "constrained_only_valid": 0.9940833333333333,
+  "baseline_unconstrained_valid": 0.9875,
+  "constrained_plus_filter_valid": 1.0,
+  "delivered_count": 11929,
+  "dropped_count": 71,
+  "residual_error_breakdown": {
+    "parse": 3,
+    "kekulization": 52,
+    "valence": 16,
+    "other": 0
+  },
+  "novelty": 0.7765993551671475,
+  "intdiv": 0.8563954714647674,
+  "intdiv2": 0.8489118812400143,
+  "unique_at_1000": 1.0,
+  "unique_at_10000": 0.9894,
+  "coverage_guard": {
+    "novelty_band": [
+      0.747,
+      0.847
+    ],
+    "intdiv_band": [
+      0.837,
+      0.877
+    ],
+    "novelty_ok": true,
+    "intdiv_ok": true
+  }
+}
