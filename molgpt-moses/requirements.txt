@@ -1,0 +1,19 @@
+# Reproduction + scoring stack, pinned to the versions this recipe was built with.
+# The MOSES (molsets) and fcd_torch scoring code is legacy and needs numpy < 2,
+# so these are pinned tightly.
+#
+# Install these with:  pip install -r requirements.txt
+# Then install MOSES separately (its own deps conflict with modern pins):
+#     pip install --no-deps molsets==0.3.1
+#
+# Extra, per leg (not needed for the basic reproduce+score path):
+#   - Goal-directed (GOAL_DIRECTED.md): pip install PyTDC==1.0.0
+#   - Just loading the released models from Hugging Face (see the README):
+#         pip install torch transformers huggingface_hub tokenizers selfies rdkit
+numpy==1.26.4
+scipy==1.17.1
+pandas==2.3.3
+rdkit==2023.9.6
+fcd_torch==1.0.7
+tokenizers==0.22.2
+selfies==2.2.0

@@ -39,11 +39,43 @@ Don't want to wait for training? Both models are on Hugging Face and load with s
 - SMILES reproduction: [mrothroc/molgpt-moses-smiles-mixlab](https://huggingface.co/mrothroc/molgpt-moses-smiles-mixlab)
 - SELFIES variant: [mrothroc/molgpt-moses-selfies-mixlab](https://huggingface.co/mrothroc/molgpt-moses-selfies-mixlab)
 
-Each card has a short load-and-generate snippet. To train them yourself instead, read on.
+The cards have full details; here is the whole thing for the SMILES model (the SELFIES model is identical, just decode with `selfies.decoder`):
+
+```python
+# pip install torch transformers huggingface_hub tokenizers rdkit
+import torch
+from transformers import AutoModelForCausalLM
+from tokenizers import Tokenizer
+from huggingface_hub import hf_hub_download
+
+repo = "mrothroc/molgpt-moses-smiles-mixlab"
+model = AutoModelForCausalLM.from_pretrained(repo).eval()   # GPT2LMHeadModel, no trust_remote_code
+tok = Tokenizer.from_file(hf_hub_download(repo, "tokenizer.json"))
+BOS, EOS, PAD = 1, 2, 0
+
+out = model.generate(torch.full((8, 1), BOS), do_sample=True, temperature=1.0, max_length=65)
+for row in out.tolist():
+    seq = [t for t in row[1:] if t not in (BOS, PAD)]
+    if EOS in seq: seq = seq[:seq.index(EOS)]
+    print("".join(tok.id_to_token(t) for t in seq))         # SMILES strings
+```
+
+To train the models yourself instead, read on.
 
 ## Reproduce it
 
-You'll need mixlab v0.73.0 or newer on your PATH, and a Python venv with `rdkit`, `molsets` (MOSES, install `--no-deps`), `fcd_torch`, `tokenizers`, `selfies`, and `pytdc` (for the goal-directed oracle). Run from this directory:
+### Setup
+
+You need [mixlab](https://github.com/mrothroc/mixlab) v0.73.0 or newer on your PATH (see the mixlab README for the `brew` install) and a Python environment for data prep and scoring. From this directory:
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+pip install --no-deps molsets==0.3.1     # MOSES; its own deps conflict with the modern pins
+# goal-directed leg only:  pip install PyTDC==1.0.0
+```
+
+The MOSES dataset downloads automatically on first use (via `molsets`); nothing to fetch by hand. Then run the pipeline from this directory:
 
 ```bash
 export MIXLAB_MLX_CACHE_LIMIT_MB=4096
