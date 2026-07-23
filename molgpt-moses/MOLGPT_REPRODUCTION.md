@@ -2,6 +2,8 @@
 
 This tutorial trains a capacity-matched MolGPT in mixlab, one molecule per sequence. After about 5h on Apple Silicon (M1 Max, newer chips are massively faster) and 33,000 steps (about 10 epochs), the 6,342,656-parameter model closely matches MolGPT's published MOSES metrics.
 
+Prefer to skip training? The finished model is on Hugging Face: [mrothroc/molgpt-moses-smiles-mixlab](https://huggingface.co/mrothroc/molgpt-moses-smiles-mixlab).
+
 ## What you will reproduce
 
 The model uses 8 layers, 256 dimensions, 8 heads, a GELU MLP, tied embeddings, and learned absolute positions. It has 6,342,656 parameters, just 0.05% fewer than MolGPT's 6,345,728. Training uses 1,426,197 MOSES rows, a vocab-30 character tokenizer, and drops or truncates 0 records.

@@ -2,6 +2,8 @@
 
 SMILES asks the model to learn chemical validity. [SELFIES](https://github.com/aspuru-guzik-group/selfies) moves that constraint into the representation, so every generated symbol string decodes to a valid molecule. This tutorial retrains the same-size model on SELFIES and reaches literal 1.000 validity.
 
+Prefer to skip training? The finished model is on Hugging Face: [mrothroc/molgpt-moses-selfies-mixlab](https://huggingface.co/mrothroc/molgpt-moses-selfies-mixlab).
+
 ## What changes
 
 Only the representation and sequence length change. The model remains capacity-matched at 8L/256d/8h, with `vocab_size 30` (4 specials + 26 symbols) and `seq_len 72`. The recipe still uses 33000 steps, lr 6e-4, betas 0.9/0.95, wd 0.1, grad_clip 1.0, warmup 0.1, seed 42, and batch_tokens 27648. Training takes about 5h8m on Apple Silicon.

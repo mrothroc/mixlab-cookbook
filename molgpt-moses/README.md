@@ -32,6 +32,15 @@ Same size, same budget, and it improves across the board:
 
 Validity is now free, novelty and distribution fit both go up, and the MOSES medchem `Filters` rate slips a little (0.996 to 0.976). SELFIES isn't ours ([Krenn et al. 2020](https://github.com/aspuru-guzik-group/selfies)); the nice part is that the framing told us to reach for a better representation instead of more compute. Details: [SELFIES_LEG.md](SELFIES_LEG.md).
 
+## Load the trained models
+
+Don't want to wait for training? Both models are on Hugging Face and load with stock `transformers` (no `trust_remote_code`):
+
+- SMILES reproduction: [mrothroc/molgpt-moses-smiles-mixlab](https://huggingface.co/mrothroc/molgpt-moses-smiles-mixlab)
+- SELFIES variant: [mrothroc/molgpt-moses-selfies-mixlab](https://huggingface.co/mrothroc/molgpt-moses-selfies-mixlab)
+
+Each card has a short load-and-generate snippet. To train them yourself instead, read on.
+
 ## Reproduce it
 
 You'll need mixlab v0.73.0 or newer on your PATH, and a Python venv with `rdkit`, `molsets` (MOSES, install `--no-deps`), `fcd_torch`, `tokenizers`, `selfies`, and `pytdc` (for the goal-directed oracle). Run from this directory:
