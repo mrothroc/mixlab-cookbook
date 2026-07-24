@@ -4,6 +4,8 @@
 
 There are two models here: a faithful reproduction of MolGPT, and a variant that comes out better once you change how the molecules are represented.
 
+Prefer the story first? There's a short narrative writeup of this recipe: [You Don't Code the Model, You Edit the JSON](https://michael.roth.rocks/blog/edit-the-json/).
+
 ## Verification against the benchmark
 
 Same architecture as [MolGPT](https://github.com/devalab/molgpt) (6,342,656 params: 8 layers, 256-dim, 8 heads), trained one molecule per sequence on MOSES and scored on 30k samples with the official `moses.metrics`:
