@@ -12,6 +12,7 @@ Metrics are typically **firm parity by default**, which is an apples-to-apples c
 | Recipe | Reproduces | Notes |
 |---|---|---|
 | [molgpt-moses](molgpt-moses/) | MolGPT (SMILES transformer) on MOSES | firm-metric parity (FCD directional) + grammar-constrained decoding, a SELFIES variant, goal-directed QED · self-contained |
+| [genomics-mamba](genomics-mamba/) | DNA enhancer classifier (Genomic Benchmarks) | reproduce an attention baseline (0.717), then beat it (0.728) by swapping the mixer to canonical Mamba in the JSON · self-contained |
 | [babylm-gpt2](babylm-gpt2/) | BabyLM 2026 GPT-2 Strict-Small baseline | per-component parity on a single Mac · → [standalone repo](https://github.com/mrothroc/mixlab-babylm-gpt2) |
 | [babylm-gptbert](babylm-gptbert/) | BabyLM 2025 GPT-BERT masked-focus baseline | per-component parity of a masked+causal hybrid · → [standalone repo](https://github.com/mrothroc/mixlab-babylm-gptbert) |
 

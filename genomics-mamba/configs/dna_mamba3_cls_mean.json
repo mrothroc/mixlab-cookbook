@@ -1,0 +1,96 @@
+{
+  "name": "dna_mamba3_cls_mean",
+  "model_dim": 384,
+  "vocab_size": 9,
+  "seq_len": 512,
+  "mlp_mult": 4.0,
+  "tie_embeddings": true,
+  "embedding_dropout": 0.1,
+  "hidden_dropout": 0.1,
+  "blocks": [
+    {
+      "type": "mamba3-canonical",
+      "inner_dim": 384,
+      "state_size": 16,
+      "n_groups": 4,
+      "conv_kernel": 4,
+      "use_conv": true
+    },
+    {
+      "type": "swiglu"
+    },
+    {
+      "type": "mamba3-canonical",
+      "inner_dim": 384,
+      "state_size": 16,
+      "n_groups": 4,
+      "conv_kernel": 4,
+      "use_conv": true
+    },
+    {
+      "type": "swiglu"
+    },
+    {
+      "type": "mamba3-canonical",
+      "inner_dim": 384,
+      "state_size": 16,
+      "n_groups": 4,
+      "conv_kernel": 4,
+      "use_conv": true
+    },
+    {
+      "type": "swiglu"
+    },
+    {
+      "type": "mamba3-canonical",
+      "inner_dim": 384,
+      "state_size": 16,
+      "n_groups": 4,
+      "conv_kernel": 4,
+      "use_conv": true
+    },
+    {
+      "type": "swiglu"
+    },
+    {
+      "type": "mamba3-canonical",
+      "inner_dim": 384,
+      "state_size": 16,
+      "n_groups": 4,
+      "conv_kernel": 4,
+      "use_conv": true
+    },
+    {
+      "type": "swiglu"
+    },
+    {
+      "type": "mamba3-canonical",
+      "inner_dim": 384,
+      "state_size": 16,
+      "n_groups": 4,
+      "conv_kernel": 4,
+      "use_conv": true
+    },
+    {
+      "type": "swiglu"
+    }
+  ],
+  "training": {
+    "objective": "classification",
+    "classification": {
+      "num_labels": 2,
+      "pooling": "mean",
+      "classifier_dropout": 0.1
+    },
+    "optimizer": "adamw",
+    "lr": 5e-05,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "weight_decay": 0.01,
+    "grad_clip": 0.5,
+    "warmup_ratio": 0.1,
+    "steps": 2500,
+    "seed": 42,
+    "batch_tokens": 32768
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "task": "human_enhancers_cohn (Genomic Benchmarks; binary, 500bp, 20843 train / 6948 test, balanced)",
+  "pretrain": "GRCh38 chr1-3 continuous nucleotide stream, 562M tokens, 20000 steps",
+  "selection": "checkpoint chosen on a held-out validation split (1042 records the fine-tune never saw), reported on test",
+  "canonical_mamba3": {
+    "per_seed_test": {
+      "42":   {"val_selected_step": 500,  "acc": 0.734, "auroc": 0.818, "mcc": 0.470},
+      "123":  {"val_selected_step": 1000, "acc": 0.718, "auroc": 0.796, "mcc": 0.436},
+      "2024": {"val_selected_step": 500,  "acc": 0.733, "auroc": 0.819, "mcc": 0.472}
+    },
+    "mean": {"acc": 0.728, "acc_std": 0.007, "auroc": 0.811, "mcc": 0.459},
+    "step500_test_acc_all_seeds": [0.734, 0.732, 0.733],
+    "pretrain_val_loss": 1.127
+  },
+  "legacy_ema_mamba_1seed": {"acc": 0.722, "auroc": 0.801, "mcc": 0.444, "note": "NOT real Mamba (per-channel EMA)"},
+  "attention_baseline": {"acc": 0.717, "auroc": 0.799, "mcc": 0.436, "seeds": 3, "pretrain_val_loss": 1.079}
+}

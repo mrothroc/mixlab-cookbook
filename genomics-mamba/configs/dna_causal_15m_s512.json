@@ -1,0 +1,107 @@
+{
+  "name": "dna_causal_15m_s512",
+  "model_dim": 384,
+  "vocab_size": 9,
+  "seq_len": 512,
+  "max_positions": 512,
+  "mlp_mult": 4.0,
+  "tie_embeddings": true,
+  "norm_type": "layernorm",
+  "norm_affine": true,
+  "norm_eps": 1e-05,
+  "positional_embedding": "learned_absolute",
+  "embedding_dropout": 0.1,
+  "hidden_dropout": 0.1,
+  "attn_dropout": 0.1,
+  "blocks": [
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "causal",
+      "attn_bias": true,
+      "ffn_activation": "gelu_new",
+      "ffn_pre_norm": true,
+      "ffn_bias": true
+    },
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "causal",
+      "attn_bias": true,
+      "ffn_activation": "gelu_new",
+      "ffn_pre_norm": true,
+      "ffn_bias": true
+    },
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "causal",
+      "attn_bias": true,
+      "ffn_activation": "gelu_new",
+      "ffn_pre_norm": true,
+      "ffn_bias": true
+    },
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "causal",
+      "attn_bias": true,
+      "ffn_activation": "gelu_new",
+      "ffn_pre_norm": true,
+      "ffn_bias": true
+    },
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "causal",
+      "attn_bias": true,
+      "ffn_activation": "gelu_new",
+      "ffn_pre_norm": true,
+      "ffn_bias": true
+    },
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "causal",
+      "attn_bias": true,
+      "ffn_activation": "gelu_new",
+      "ffn_pre_norm": true,
+      "ffn_bias": true
+    },
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "causal",
+      "attn_bias": true,
+      "ffn_activation": "gelu_new",
+      "ffn_pre_norm": true,
+      "ffn_bias": true
+    },
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "causal",
+      "attn_bias": true,
+      "ffn_activation": "gelu_new",
+      "ffn_pre_norm": true,
+      "ffn_bias": true
+    }
+  ],
+  "training": {
+    "objective": "causal",
+    "optimizer": "adamw",
+    "lr": 0.0006,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "weight_decay": 0.1,
+    "embed_weight_decay": 0.0,
+    "scalar_weight_decay": 0.0,
+    "head_weight_decay": 0.0,
+    "grad_clip": 1.0,
+    "warmup_ratio": 0.05,
+    "steps": 20000,
+    "seed": 42,
+    "batch_tokens": 32768,
+    "reverse_complement_prob": 0.5
+  }
+}
