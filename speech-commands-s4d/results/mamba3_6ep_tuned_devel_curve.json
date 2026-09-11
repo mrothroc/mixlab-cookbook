@@ -1,0 +1,75 @@
+{
+  "run": "sc35_mamba3_6ep_b4_lr1e3_tuned",
+  "device": "NVIDIA L4 (sm_89)",
+  "params": 320579,
+  "steps": 127260,
+  "lr": 0.001,
+  "lr_schedule_steps": 127260,
+  "seed": 2222,
+  "tok_s": 67032,
+  "projected_single_pass_wall": "~33.8h on L4",
+  "process_lifetimes_required": 4,
+  "note_hang": "completed only on the 4th process; the run hung three times with no error and was resumed each time. Reported upstream to mixlab; see the Known rough edges section of the recipe README.",
+  "devel_split": {
+    "examples": 9981,
+    "eval": "-mode eval -val-batches 0 (full split)"
+  },
+  "per_epoch": [
+    {
+      "epoch": 1,
+      "step": 21210,
+      "val_loss": 1.745913,
+      "mcc": 0.489,
+      "macro_f1": 0.4555,
+      "accuracy_percent": 50.48
+    },
+    {
+      "epoch": 2,
+      "step": 42420,
+      "val_loss": 0.871903,
+      "mcc": 0.748,
+      "macro_f1": 0.7464,
+      "accuracy_percent": 75.55
+    },
+    {
+      "epoch": 3,
+      "step": 63630,
+      "val_loss": 0.683322,
+      "mcc": 0.8059,
+      "macro_f1": 0.8026,
+      "accuracy_percent": 81.18
+    },
+    {
+      "epoch": 4,
+      "step": 84840,
+      "val_loss": 0.454112,
+      "mcc": 0.8652,
+      "macro_f1": 0.861,
+      "accuracy_percent": 86.95
+    },
+    {
+      "epoch": 5,
+      "step": 106050,
+      "val_loss": 0.347947,
+      "mcc": 0.8953,
+      "macro_f1": 0.8926,
+      "accuracy_percent": 89.86
+    },
+    {
+      "epoch": 6,
+      "step": 127260,
+      "val_loss": 0.317165,
+      "mcc": 0.9044,
+      "macro_f1": 0.9016,
+      "accuracy_percent": 90.74
+    }
+  ],
+  "comparison": {
+    "s4d_6ep_devel": 0.9498,
+    "gap_points": 4.24,
+    "matched": "same data, harness, seed, steps, lr_schedule_steps, batch_tokens; both fully annealed",
+    "not_matched": "lr 0.01 (s4d) vs 0.001 (mamba3); params 306,083 vs 320,579 (+4.7%); n=1 seed each",
+    "framing": "each mixer at its own best-known settings - NOT a one-field controlled swap"
+  },
+  "final_devel_accuracy_percent": 90.74
+}

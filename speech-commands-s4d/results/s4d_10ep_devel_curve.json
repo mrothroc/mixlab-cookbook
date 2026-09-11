@@ -1,0 +1,101 @@
+{
+  "run": "sc35_s4d_10ep_b4",
+  "device": "NVIDIA GeForce RTX 4090 (sm_89)",
+  "wall_clock": "10h54m24.751s",
+  "tok_s": 346755,
+  "steps": 212100,
+  "batch_tokens": 64000,
+  "lr": 0.01,
+  "lr_schedule_steps": 212100,
+  "seed": 2222,
+  "devel_split": {
+    "examples": 9981,
+    "eval": "-mode eval -val-batches 0 (full split)"
+  },
+  "per_epoch": [
+    {
+      "epoch": 1,
+      "step": 21210,
+      "val_loss": 0.942957,
+      "mcc": 0.7354,
+      "macro_f1": 0.7313,
+      "accuracy_percent": 74.16
+    },
+    {
+      "epoch": 2,
+      "step": 42420,
+      "val_loss": 0.668036,
+      "mcc": 0.8002,
+      "macro_f1": 0.7794,
+      "accuracy_percent": 80.6
+    },
+    {
+      "epoch": 3,
+      "step": 63630,
+      "val_loss": 0.632234,
+      "mcc": 0.8201,
+      "macro_f1": 0.8001,
+      "accuracy_percent": 82.54
+    },
+    {
+      "epoch": 4,
+      "step": 84840,
+      "val_loss": 0.641452,
+      "mcc": 0.8136,
+      "macro_f1": 0.7959,
+      "accuracy_percent": 81.9
+    },
+    {
+      "epoch": 5,
+      "step": 106050,
+      "val_loss": 0.487605,
+      "mcc": 0.8571,
+      "macro_f1": 0.8485,
+      "accuracy_percent": 86.13
+    },
+    {
+      "epoch": 6,
+      "step": 127260,
+      "val_loss": 0.412087,
+      "mcc": 0.8798,
+      "macro_f1": 0.874,
+      "accuracy_percent": 88.34
+    },
+    {
+      "epoch": 7,
+      "step": 148470,
+      "val_loss": 0.309137,
+      "mcc": 0.9071,
+      "macro_f1": 0.9007,
+      "accuracy_percent": 90.99
+    },
+    {
+      "epoch": 8,
+      "step": 169680,
+      "val_loss": 0.262178,
+      "mcc": 0.9213,
+      "macro_f1": 0.9149,
+      "accuracy_percent": 92.38
+    },
+    {
+      "epoch": 9,
+      "step": 190890,
+      "val_loss": 0.192952,
+      "mcc": 0.9424,
+      "macro_f1": 0.9402,
+      "accuracy_percent": 94.42
+    },
+    {
+      "epoch": 10,
+      "step": 212100,
+      "val_loss": 0.172862,
+      "mcc": 0.949,
+      "macro_f1": 0.947,
+      "accuracy_percent": 95.06
+    }
+  ],
+  "note": "Per-epoch accuracy is NOT comparable to the separate 6-epoch run: that run's cosine had fully annealed by step 127260 (94.98 devel), whereas this run is only 60% through its 212100-step schedule at the same step (88.34). Only fully-annealed endpoints compare.",
+  "weights_published": false,
+  "related_published_model": "The 40-epoch anchor, a different run, is at https://huggingface.co/mrothroc/sc35-s4d-lin-mixlab . No weights are published for this 10-epoch run.",
+  "final_devel_accuracy_percent": 95.06
+}

@@ -1,0 +1,38 @@
+{
+  "experiment": "mamba3 state_lr smoke + paired control",
+  "date": "2026-09-07",
+  "mixlab": "0.110.0 or newer (state_lr on mamba3-canonical requires it)",
+  "device": "NVIDIA GeForce RTX 4090 (sm_89)",
+  "config": "6x mamba3-canonical, seq_len 16000, batch_tokens 64000, lr 0.01, lr_schedule_steps 127260, seed 2222",
+  "cells": [
+    {
+      "name": "TREATMENT",
+      "state_lr": 0.001,
+      "breaker_step": 834,
+      "signature": "loss_nonfinite=0 gradient_nonfinite=0 state_nonfinite=6->82",
+      "tok_s": 171242,
+      "gpu_ms": 356.9
+    },
+    {
+      "name": "CONTROL",
+      "state_lr": null,
+      "breaker_step": 762,
+      "signature": "loss_nonfinite=0 gradient_nonfinite=0 state_nonfinite=10->15",
+      "tok_s": 171933,
+      "gpu_ms": 363.3
+    }
+  ],
+  "finding": "A matched state_lr of 0.001 on A_log/dt_bias did not prevent divergence at global lr 0.01: treatment diverged at step 834, control at 762.",
+  "not_established": "Where the instability originates, and whether state_lr delays it. 834 vs 762 is not a difference: onsets span 263-1011 at n=1 per cell. Both cells failing rules out this particular remedy; it does not localise the cause to any part of the block. Lowering the global learning rate does prevent it, but that changes every parameter group, not just the dynamics tensors.",
+  "lr_0p01_divergence_onsets": {
+    "steps": [
+      263,
+      696,
+      762,
+      834,
+      989,
+      1011
+    ],
+    "note": "Six observed lr=0.01 runs, all diverged. Five of the six broke inside the 1,000 step warmup; the sixth broke at 1011, just past it. The 834 and 762 cells below are two of these six."
+  }
+}

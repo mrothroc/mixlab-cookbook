@@ -1,0 +1,232 @@
+{
+  "checkpoint": {
+    "file": "step_190872.st",
+    "epoch": 36,
+    "of_epochs": 40,
+    "sha256": "c8dacb0b6ca61d67ab73c42420d520287dc42fe86ad360858092b5cf8d79041b",
+    "identity": "byte-identical to the weights published at https://huggingface.co/mrothroc/sc35-s4d-lin-mixlab as mixlab_checkpoint.safetensors",
+    "selection_rule": "best devel accuracy, scored once on test",
+    "note_on_metadata": "the checkpoint's own metadata records steps=212080, the configured training budget. That is the run length, not the selected step. The selected step is 36 x 5302 = 190872."
+  },
+  "test_evaluation": {
+    "command": "mixlab -mode eval -config configs/s4d_anchor_40ep.json -safetensors-load step_190872.st -val 'shards_test/train_*.bin' -val-batches 0",
+    "verbatim_output": "classification validation: loss=0.127914 acc=0.9614 mcc=0.9601 macro_f1=0.9573 examples=11005",
+    "n": 11005,
+    "correct": 10580,
+    "split": "official testing_list.txt, 11,005 utterances, scored once",
+    "per_example_predictions": "anchor_test_predictions.tsv",
+    "predictions_sha256": "a7b72014191f158a7133ff7a9e53be87ee34551aa5094963aece1517b8d93c2c",
+    "predictions_note": "index, true label, predicted label. Logits were dropped to keep the file small; the accuracy claim is fully recountable from these three columns.",
+    "accuracy_percent": 96.1381
+  },
+  "per_class_accuracy": {
+    "bed": {
+      "correct": 192,
+      "n": 207,
+      "accuracy_percent": 92.75
+    },
+    "cat": {
+      "correct": 185,
+      "n": 194,
+      "accuracy_percent": 95.36
+    },
+    "down": {
+      "correct": 381,
+      "n": 406,
+      "accuracy_percent": 93.84
+    },
+    "five": {
+      "correct": 435,
+      "n": 445,
+      "accuracy_percent": 97.75
+    },
+    "forward": {
+      "correct": 139,
+      "n": 155,
+      "accuracy_percent": 89.68
+    },
+    "go": {
+      "correct": 389,
+      "n": 402,
+      "accuracy_percent": 96.77
+    },
+    "house": {
+      "correct": 185,
+      "n": 191,
+      "accuracy_percent": 96.86
+    },
+    "left": {
+      "correct": 396,
+      "n": 412,
+      "accuracy_percent": 96.12
+    },
+    "marvin": {
+      "correct": 190,
+      "n": 195,
+      "accuracy_percent": 97.44
+    },
+    "no": {
+      "correct": 397,
+      "n": 405,
+      "accuracy_percent": 98.02
+    },
+    "on": {
+      "correct": 383,
+      "n": 396,
+      "accuracy_percent": 96.72
+    },
+    "right": {
+      "correct": 384,
+      "n": 396,
+      "accuracy_percent": 96.97
+    },
+    "sheila": {
+      "correct": 204,
+      "n": 212,
+      "accuracy_percent": 96.23
+    },
+    "tree": {
+      "correct": 164,
+      "n": 193,
+      "accuracy_percent": 84.97
+    },
+    "up": {
+      "correct": 407,
+      "n": 425,
+      "accuracy_percent": 95.76
+    },
+    "visual": {
+      "correct": 159,
+      "n": 165,
+      "accuracy_percent": 96.36
+    },
+    "yes": {
+      "correct": 417,
+      "n": 419,
+      "accuracy_percent": 99.52
+    },
+    "backward": {
+      "correct": 161,
+      "n": 165,
+      "accuracy_percent": 97.58
+    },
+    "bird": {
+      "correct": 178,
+      "n": 185,
+      "accuracy_percent": 96.22
+    },
+    "dog": {
+      "correct": 209,
+      "n": 220,
+      "accuracy_percent": 95.0
+    },
+    "eight": {
+      "correct": 398,
+      "n": 408,
+      "accuracy_percent": 97.55
+    },
+    "follow": {
+      "correct": 155,
+      "n": 172,
+      "accuracy_percent": 90.12
+    },
+    "four": {
+      "correct": 379,
+      "n": 400,
+      "accuracy_percent": 94.75
+    },
+    "happy": {
+      "correct": 194,
+      "n": 203,
+      "accuracy_percent": 95.57
+    },
+    "learn": {
+      "correct": 141,
+      "n": 161,
+      "accuracy_percent": 87.58
+    },
+    "nine": {
+      "correct": 396,
+      "n": 408,
+      "accuracy_percent": 97.06
+    },
+    "off": {
+      "correct": 381,
+      "n": 402,
+      "accuracy_percent": 94.78
+    },
+    "one": {
+      "correct": 379,
+      "n": 399,
+      "accuracy_percent": 94.99
+    },
+    "seven": {
+      "correct": 403,
+      "n": 406,
+      "accuracy_percent": 99.26
+    },
+    "six": {
+      "correct": 387,
+      "n": 394,
+      "accuracy_percent": 98.22
+    },
+    "stop": {
+      "correct": 408,
+      "n": 411,
+      "accuracy_percent": 99.27
+    },
+    "three": {
+      "correct": 390,
+      "n": 405,
+      "accuracy_percent": 96.3
+    },
+    "two": {
+      "correct": 413,
+      "n": 424,
+      "accuracy_percent": 97.41
+    },
+    "wow": {
+      "correct": 193,
+      "n": 206,
+      "accuracy_percent": 93.69
+    },
+    "zero": {
+      "correct": 408,
+      "n": 418,
+      "accuracy_percent": 97.61
+    }
+  },
+  "weakest_classes": [
+    "tree",
+    "learn",
+    "forward",
+    "follow",
+    "bed"
+  ],
+  "how_to_check_this_yourself": [
+    "Recount the accuracy: awk -F'\\t' 'NR>1 && $2==$3 {c++} END {print c\"/\"NR-1}' anchor_test_predictions.tsv",
+    "Expect 10580/11005.",
+    "Confirm the weights: shasum -a 256 mixlab_checkpoint.safetensors, compare to checkpoint.sha256 below.",
+    "The predictions verify the accuracy and per-class rates. They cannot verify which checkpoint was selected or how it was trained; the checksum and selection_evidence cover those."
+  ],
+  "selection_evidence": {
+    "what": "devel accuracy of every checkpoint from epoch 33 to the end of the run, full 9,981-record split",
+    "selected": 36,
+    "peak_confirmed": true,
+    "margin_over_runner_up": 0.0001,
+    "command": "mixlab -mode eval -config configs/s4d_anchor_40ep.json -safetensors-load ckpt/step_<N>.st -val 'shards/val/train_*.bin' -val-batches 0",
+    "devel_accuracy_percent_by_epoch": {
+      "33": 96.11,
+      "34": 96.17,
+      "35": 96.31,
+      "36": 96.42,
+      "37": 96.37,
+      "38": 96.37,
+      "39": 96.41,
+      "40": 96.41
+    },
+    "interpretation": "Epoch 36 is genuinely the devel peak, and 0.9642 matches the devel figure recorded for this run. But it wins by 0.0001 over epochs 39 and 40, which is one or two utterances out of 9,981. The selection rule is legitimate and was applied without looking at test, but do not read it as having found a meaningfully better checkpoint: the last several epochs are a tie, and taking the final weights would have given essentially the same devel accuracy."
+  },
+  "limitations": "That 96.14% would hold on another seed. One seed was run, against the paper's multi-seed +/-0.03, so this number sits outside their printed interval.",
+  "what_this_is": "Evidence for the 96.14% headline. The prediction file lets you recount the accuracy yourself; the checksums let you confirm the weights published on Hugging Face are the ones evaluated."
+}

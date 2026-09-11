@@ -1,0 +1,52 @@
+{
+  "run": "sc35_s4d_6ep_b4",
+  "steps": 127260,
+  "lr": 0.01,
+  "lr_schedule_steps": 127260,
+  "batch_tokens": 64000,
+  "seed": 2222,
+  "params": 306083,
+  "devel_split": {
+    "examples": 9981,
+    "eval": "-mode eval -val-batches 0 (full split)"
+  },
+  "per_epoch": [
+    {
+      "epoch": 1,
+      "step": 21210,
+      "accuracy_percent": 75.33
+    },
+    {
+      "epoch": 2,
+      "step": 42420,
+      "accuracy_percent": 82.31
+    },
+    {
+      "epoch": 3,
+      "step": 63630,
+      "accuracy_percent": 86.95
+    },
+    {
+      "epoch": 4,
+      "step": 84840,
+      "accuracy_percent": 90.71
+    },
+    {
+      "epoch": 5,
+      "step": 106050,
+      "accuracy_percent": 93.72
+    },
+    {
+      "epoch": 6,
+      "step": 127260,
+      "accuracy_percent": 94.98
+    }
+  ],
+  "provenance": {
+    "config": "configs/s4d_6ep.json",
+    "config_hash": "a14151c6d74a35e687fde6ac7e4fa8c7c9dba82ac88d9ebe77a7272e5dd0f0c3",
+    "note": "mixlab records a config_hash in each resume bundle. Running configs/s4d_6ep.json reproduces the hash this run recorded, so the shipped config is the one that produced these numbers.",
+    "train_pattern": "train_shuf/train_*.bin (full permuted training split; no -val-split holdout)"
+  },
+  "final_devel_accuracy_percent": 94.98
+}

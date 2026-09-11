@@ -1,0 +1,101 @@
+{
+  "name": "sc35_s4d_10ep_b4",
+  "model_dim": 128,
+  "seq_len": 16000,
+  "positional_embedding": "none",
+  "norm_type": "batchnorm",
+  "norm_placement": "pre",
+  "final_norm": true,
+  "input_adapter": {
+    "kind": "linear_frames",
+    "feature_dim": 1,
+    "bias": true,
+    "norm": "none"
+  },
+  "blocks": [
+    {
+      "type": "s4d",
+      "state_size": 64,
+      "n_ssm": 2,
+      "bidirectional": true,
+      "output_transform": "glu",
+      "discretization": "bilinear",
+      "measure": "diag-lin",
+      "state_lr": 0.001,
+      "trainable_b": true
+    },
+    {
+      "type": "s4d",
+      "state_size": 64,
+      "n_ssm": 2,
+      "bidirectional": true,
+      "output_transform": "glu",
+      "discretization": "bilinear",
+      "measure": "diag-lin",
+      "state_lr": 0.001,
+      "trainable_b": true
+    },
+    {
+      "type": "s4d",
+      "state_size": 64,
+      "n_ssm": 2,
+      "bidirectional": true,
+      "output_transform": "glu",
+      "discretization": "bilinear",
+      "measure": "diag-lin",
+      "state_lr": 0.001,
+      "trainable_b": true
+    },
+    {
+      "type": "s4d",
+      "state_size": 64,
+      "n_ssm": 2,
+      "bidirectional": true,
+      "output_transform": "glu",
+      "discretization": "bilinear",
+      "measure": "diag-lin",
+      "state_lr": 0.001,
+      "trainable_b": true
+    },
+    {
+      "type": "s4d",
+      "state_size": 64,
+      "n_ssm": 2,
+      "bidirectional": true,
+      "output_transform": "glu",
+      "discretization": "bilinear",
+      "measure": "diag-lin",
+      "state_lr": 0.001,
+      "trainable_b": true
+    },
+    {
+      "type": "s4d",
+      "state_size": 64,
+      "n_ssm": 2,
+      "bidirectional": true,
+      "output_transform": "glu",
+      "discretization": "bilinear",
+      "measure": "diag-lin",
+      "state_lr": 0.001,
+      "trainable_b": true
+    }
+  ],
+  "training": {
+    "objective": "classification",
+    "classification": {
+      "num_labels": 35,
+      "pooling": "mean"
+    },
+    "optimizer": "adamw",
+    "lr": 0.01,
+    "weight_decay": 0.05,
+    "batch_tokens": 64000,
+    "steps": 212100,
+    "seed": 2222,
+    "beta2": 0.999,
+    "lr_schedule_steps": 212100,
+    "warmup_steps": 1000,
+    "hold_steps": 0,
+    "min_lr_fraction": 1e-06
+  }
+}

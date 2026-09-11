@@ -1,0 +1,32 @@
+{
+  "experiment": "record order before `mixlab -mode prepare`",
+  "why": "mixlab -mode prepare preserves input record order. Speech Commands enumerates class by class, so writing records in that order makes every shard nearly single-label. Nothing errors; the run trains at full throughput and produces a model barely above chance.",
+  "dataset": "Speech Commands v0.02, 84,843 train records, 35 classes, 1,369 shards, ~62 records per shard",
+  "model": "6-layer bidirectional S4D classifier, identical config and seed in both arms",
+  "eval": "full 9,981 record devel split",
+  "chance_accuracy_percent": 2.857,
+  "arms": [
+    {
+      "name": "class-ordered input",
+      "distinct_classes_per_shard": 1,
+      "distinct_classes_per_16_record_batch": 1.01,
+      "devel_accuracy_percent": {
+        "epoch_1": 3.52,
+        "epoch_18": 4.26
+      }
+    },
+    {
+      "name": "globally permuted before prepare",
+      "distinct_classes_per_shard": "23-31",
+      "distinct_classes_per_16_record_batch": 12.99,
+      "devel_accuracy_percent": {
+        "epoch_1": 92.5,
+        "epoch_2": 94.94
+      }
+    }
+  ],
+  "finding": "Same config, same seed, same code: 3.52 vs 92.50 at epoch 1, a gap of 88.98 accuracy points. The class-ordered arm was still at 4.26 by epoch 18, so this is not a slow start.",
+  "fix_in_this_recipe": "scripts/prep_sc35.py permutes all three splits with a fixed seed before writing, and permutes labels with the same index array.",
+  "related": "The in-training `acc=` is a 10-batch sample. Over class-ordered data those batches are one class, so it reads near zero whether or not the model is learning.",
+  "provenance": "Early diagnostic run during development, on mixlab 0.105.1. Both arms used the same config and seed as each other; that config file was not preserved, so this is evidence for the effect rather than a reproduction procedure. The permutation fix it motivated is in scripts/prep_sc35.py and is exercised by every run here."
+}

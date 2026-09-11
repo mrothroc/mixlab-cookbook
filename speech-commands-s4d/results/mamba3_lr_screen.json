@@ -1,0 +1,31 @@
+{
+  "experiment": "mamba3 LR stability screen",
+  "date": "2026-09-09",
+  "device": "NVIDIA GeForce RTX 4090",
+  "steps": 3000,
+  "lr_schedule_steps": 127260,
+  "purpose": "Compare early training stability at three learning rates.",
+  "cells": [
+    {
+      "lr": 0.0003,
+      "diverged": false,
+      "sampled_val_loss": 3.019617,
+      "sampled_accuracy_percent": 22.5
+    },
+    {
+      "lr": 0.001,
+      "diverged": false,
+      "sampled_val_loss": 3.107702,
+      "sampled_accuracy_percent": 22.5
+    },
+    {
+      "lr": 0.003,
+      "diverged": false,
+      "sampled_val_loss": 3.299268,
+      "sampled_accuracy_percent": 12.5
+    }
+  ],
+  "established": "All three ran 3,000 steps without going non-finite, covering the window where every lr=0.01 divergence occurred (steps 263-1011). So lr 0.001 is one workable choice, not a required one. This is a short-run stability screen; it says nothing about stability over a full run.",
+  "not_established": "Any ranking among the three. The metrics are 40-record sampled values at 2.4% of the schedule, which is too small a sample to separate them.",
+  "cost": "3 x 3000 steps on one 4090, well under 1 GPU-hour"
+}

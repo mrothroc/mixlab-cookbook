@@ -1,0 +1,14 @@
+# numpy is needed for BOTH step 1 (prep_sc35.py) and step 2: `mixlab -mode prepare`
+# shells out to the `python3` on your PATH and imports numpy there. Installing it
+# only inside a venv that is not on PATH will fail at step 2 with:
+#   error: prepare requires Python packages numpy
+numpy>=1.24
+
+# mixlab itself is a standalone binary, not a Python package:
+#   brew install mrothroc/tap/mixlab
+# Needs >= 0.110.0 for state_lr on mamba3-canonical. Tested against 0.111.0.
+
+# Optional, only to load the published checkpoint in PyTorch with the reference
+# implementation from the model card:
+# torch>=2.0
+# safetensors>=0.4

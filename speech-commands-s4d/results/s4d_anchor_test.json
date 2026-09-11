@@ -1,0 +1,42 @@
+{
+  "target": {
+    "source": "S4D paper arXiv 2206.11893 Table 11, S4D-Lin",
+    "params": "306K",
+    "printed_interval": [
+      96.22,
+      96.28
+    ],
+    "test_accuracy_percent": 96.25,
+    "reported_std_percentage_points": 0.03,
+    "sample_rate_hz": 16000
+  },
+  "run": {
+    "test_correct": 10580,
+    "test_n": 11005,
+    "selected_step": 190872,
+    "selected_epoch": 36,
+    "test_mcc": 0.9601,
+    "test_macro_f1": 0.9573,
+    "params": 306083,
+    "wall_clock": "32h01m (post-resume; ~9.5h lost to a reboot)",
+    "mixlab": "0.106.2",
+    "seed": 2222,
+    "test_accuracy_percent": 96.1381,
+    "devel_accuracy_percent": 96.42
+  },
+  "band_check": {
+    "papers_printed_interval": [
+      96.22,
+      96.28
+    ],
+    "inside_papers_printed_interval": false,
+    "note": "96.14 sits below the paper's printed 96.22-96.28. That interval is a multi-seed +/-0.03; this is one seed, so the comparison is indicative rather than a like-for-like miss."
+  },
+  "declared_assumptions": [
+    "n_ssm=2 (unpublished for Table 11)",
+    "checkpoint-selection rule (ambiguous in Appendix B)"
+  ],
+  "claim": "Single-seed best-effort reconstruction under two declared assumptions: 10580/11005 = 96.14% vs the published 96.25%. NOT a claim of reproducing Table 11 or of matching 96.25 +/- 0.03.",
+  "audit_trail": "anchor_test_audit.json and anchor_test_predictions.tsv",
+  "known_deviation_from_the_reference": "post-200k cosine: HF rebounds to <=9.1e-5, mixlab holds at floor. Selected step 190,872 is BEFORE the horizon, so selection was unaffected."
+}
