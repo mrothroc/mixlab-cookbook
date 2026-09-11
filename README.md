@@ -29,3 +29,5 @@ Metrics are typically **firm parity by default**, which is an apples-to-apples c
 ## Relationship to mixlab
 
 These recipes exercise mixlab and double as its example library. When useful, the bare configs also live under `mixlab/examples/` in that repo. The cookbook adds the narrative + reproduce numbers around them.
+
+Prefer the story first? There's a narrative writeup of why mixlab exists and what building it in Go bought: [I Built an ML Architecture Lab in Go](https://michael.roth.rocks/blog/mixlab/).
