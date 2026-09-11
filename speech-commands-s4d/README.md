@@ -25,7 +25,7 @@ Epoch 36 beats epochs 39 and 40 by **0.0001 devel**, about one utterance in 9,98
 
 ## Try it
 
-The 40 epoch model is published as ready-to-try weights:
+The weights from the 40 epoch run are published ready to try, at the epoch 36 checkpoint the table above reports:
 [mrothroc/sc35-s4d-lin-mixlab](https://huggingface.co/mrothroc/sc35-s4d-lin-mixlab). It ships a standalone PyTorch loader, the label map, and a script that classifies real clips and checks the predictions against their folder names. CPU is fine.
 
 ## Install
@@ -255,7 +255,7 @@ permuted        distinct classes per 16-record batch: mean 12.99
 
 The work went into reference details invisible in the paper's config: `n_ssm: 2` parameter sharing, a separate `state_lr` for the SSM parameters, and GELU before GLU inside the block. We found those by reading the reference implementation, not its YAML. Matching the parameter count to 0.2% did not mean the mapping was complete.
 
-A separate PyTorch port of the block matched mixlab's forward outputs on 35 inputs to 6.251e-05 max absolute logit difference with 35/35 argmax agreement, measured on a one step checkpoint. That shows the layer maths and weight layout line up. The port and its comparison numbers are not in this directory; they ship with the model, where the check can be rerun. The [model card](https://huggingface.co/mrothroc/sc35-s4d-lin-mixlab) documents separate checks on the trained weights, including a label-mapping check against real audio.
+A separate PyTorch port of the block matched mixlab's forward outputs on 35 inputs to 6.251e-05 max absolute logit difference with 35/35 argmax agreement, measured on a one step checkpoint. That shows the layer maths and weight layout line up. The port ships with the model as `modeling_s4d.py`, but the comparison was run against a one step checkpoint that is not published, so the figure is a recorded result rather than something you can rerun from these files. The [model card](https://huggingface.co/mrothroc/sc35-s4d-lin-mixlab) documents separate checks on the trained weights, including a label-mapping check against real audio.
 
 ## Known rough edges
 
