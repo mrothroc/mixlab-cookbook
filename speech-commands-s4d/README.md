@@ -6,6 +6,8 @@ The architecture is defined with a JSON config, so swapping the sequence mixer i
 
 Use the recipe as-is, or as a starting point for your own experiments.
 
+Prefer the story first? There's a narrative writeup of why mixlab exists: [I Built an ML Architecture Lab in Go](https://michael.roth.rocks/blog/mixlab/).
+
 ## The reproduction
 
 Official `testing_list.txt` split, 11,005 utterances:
