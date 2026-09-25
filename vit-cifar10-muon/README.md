@@ -29,7 +29,9 @@ Use the recipe as-is, or as a starting point for your own experiments.
 ## Results
 
 Same architecture (9,523,722 params), same data, same 200-epoch / 19,600-step budget, same three seeds
-(42 / 1234 / 2024). Final-epoch accuracy on the 10,000-image test set.
+(42 / 1234 / 2024). Final-epoch accuracy on the 10,000-image test set. The `±` values are sample
+standard deviations across those three seeds, not confidence intervals — the 95% t half-width for the
+paired Muon−AdamW difference is 0.22, and `results/extend.json` records it that way.
 
 | recipe | test accuracy |
 |---|---|
@@ -45,13 +47,15 @@ seeds.
 Both learning rates were picked on the test set. Read 85.88 and 82.56 as the best of a sweep, not a
 held-out number. The reproduction config was locked before the first run.
 
-Three seeds per arm, so the interval is a pilot. We also ran a control giving AdamW its own `matrix_lr`
+Three seeds per arm, so this is a pilot rather than a powered comparison. We also ran a control giving AdamW its own `matrix_lr`
 with the other groups held at 1e-4, in case the gap was just the auxiliary rates: it reached 82.40 at
 seed 42, no better than the arm above. Both are in [`results/extend.json`](results/extend.json).
 
-What we reproduce is the repository at this exact invocation:
+What we reproduce is the repository at this exact invocation — quoted for provenance; the setup it needs
+is under [Optional: the PyTorch reference arm](#optional-the-pytorch-reference-arm), and it will not run
+on an unpatched clone:
 
-```bash
+```text
 python train_cifar10.py --noaug --nowandb --noamp --n_epochs 200 --seed <42|1234|2024>
 ```
 
@@ -151,17 +155,15 @@ export PATH="$PWD/.venv/bin:$PATH"    # so mixlab's prepare finds python3 + nump
 CIFAR-10 downloads in step 1 below. Verify its md5 — a truncated download produces a file that looks
 fine and trains to nonsense.
 
-To reproduce the PyTorch reference arm as well, clone
-[`kentaroy47/vision-transformers-cifar10`](https://github.com/kentaroy47/vision-transformers-cifar10)
-at `79fa30c` and run, once per seed:
+### Optional: the PyTorch reference arm
 
-```bash
-python train_cifar10.py --noaug --nowandb --noamp --n_epochs 200 --seed 42
-```
+Only needed if you want to re-run the comparison rather than take our numbers for it. Skip to
+**Reproduce it** for the mixlab path.
 
-Reproducing the reference arm takes more than a clone: we made seven changes to `train_cifar10.py`.
-Rather than have you transcribe them, the entry ships the diff. It applies cleanly to the pinned commit
-and fails loudly if it does not:
+Upstream needs seven changes to `train_cifar10.py` before it will run this recipe at all — it has no
+`--seed`, calls `.cuda()` unconditionally, and has a bug that makes `--nowandb` ineffective. Rather than
+have you transcribe them, the entry ships the diff; it applies cleanly to the pinned commit and fails
+loudly if it does not.
 
 Run this from *outside* this recipe directory, so the upstream checkout lands beside it rather than
 inside it — the paths below assume that layout:
@@ -174,6 +176,7 @@ git checkout 79fa30c
 git apply "$RECIPE/scripts/reference.patch"
 pip install -r "$RECIPE/scripts/reference-requirements.txt"
 python train_cifar10.py --noaug --nowandb --noamp --n_epochs 200 --seed 42
+cd ..                                 # back out before continuing with the mixlab path
 ```
 
 One epoch takes about 2 minutes on an M1 Max, so use `--n_epochs 1` first to confirm it starts. Outputs
