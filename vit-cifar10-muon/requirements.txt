@@ -1,0 +1,2 @@
+# data prep only; training needs the mixlab binary (v0.117.0+)
+numpy>=1.24

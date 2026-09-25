@@ -1,0 +1,1548 @@
+{
+  "schema": "mixlab_optimizer_report_v1",
+  "rate_basis": "configured_before_schedule",
+  "groups": [
+    {
+      "name": "embed",
+      "tensors": 0,
+      "parameters": 0,
+      "decay_eligible_tensors": 0
+    },
+    {
+      "index": 2,
+      "name": "head",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "tensors": 2,
+      "parameters": 5130,
+      "decay_eligible_tensors": 1
+    },
+    {
+      "index": 1,
+      "name": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "tensors": 45,
+      "parameters": 23040,
+      "decay_eligible_tensors": 0
+    },
+    {
+      "index": 0,
+      "name": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "tensors": 39,
+      "parameters": 9495552,
+      "decay_eligible_tensors": 39
+    }
+  ],
+  "tensors": [
+    {
+      "index": 0,
+      "name": "input_adapter_proj",
+      "shape": [
+        48,
+        512
+      ],
+      "parameters": 24576,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 1,
+      "name": "final_norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 2,
+      "name": "final_norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 3,
+      "name": "input_adapter_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 4,
+      "name": "position_embeddings",
+      "shape": [
+        65,
+        512
+      ],
+      "parameters": 33280,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 5,
+      "name": "norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 6,
+      "name": "norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 7,
+      "name": "wq",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 8,
+      "name": "wk",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 9,
+      "name": "wv",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 10,
+      "name": "wo",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 11,
+      "name": "wo_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 12,
+      "name": "ffn_norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 13,
+      "name": "ffn_norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 14,
+      "name": "ff1",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 15,
+      "name": "ff1_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 16,
+      "name": "ff2",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 17,
+      "name": "ff2_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 18,
+      "name": "norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 19,
+      "name": "norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 20,
+      "name": "wq",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 21,
+      "name": "wk",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 22,
+      "name": "wv",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 23,
+      "name": "wo",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 24,
+      "name": "wo_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 25,
+      "name": "ffn_norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 26,
+      "name": "ffn_norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 27,
+      "name": "ff1",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 28,
+      "name": "ff1_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 29,
+      "name": "ff2",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 30,
+      "name": "ff2_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 31,
+      "name": "norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 32,
+      "name": "norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 33,
+      "name": "wq",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 34,
+      "name": "wk",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 35,
+      "name": "wv",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 36,
+      "name": "wo",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 37,
+      "name": "wo_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 38,
+      "name": "ffn_norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 39,
+      "name": "ffn_norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 40,
+      "name": "ff1",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 41,
+      "name": "ff1_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 42,
+      "name": "ff2",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 43,
+      "name": "ff2_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 44,
+      "name": "norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 45,
+      "name": "norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 46,
+      "name": "wq",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 47,
+      "name": "wk",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 48,
+      "name": "wv",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 49,
+      "name": "wo",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 50,
+      "name": "wo_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 51,
+      "name": "ffn_norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 52,
+      "name": "ffn_norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 53,
+      "name": "ff1",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 54,
+      "name": "ff1_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 55,
+      "name": "ff2",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 56,
+      "name": "ff2_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 57,
+      "name": "norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 58,
+      "name": "norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 59,
+      "name": "wq",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 60,
+      "name": "wk",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 61,
+      "name": "wv",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 62,
+      "name": "wo",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 63,
+      "name": "wo_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 64,
+      "name": "ffn_norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 65,
+      "name": "ffn_norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 66,
+      "name": "ff1",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 67,
+      "name": "ff1_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 68,
+      "name": "ff2",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 69,
+      "name": "ff2_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 70,
+      "name": "norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 71,
+      "name": "norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 72,
+      "name": "wq",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 73,
+      "name": "wk",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 74,
+      "name": "wv",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 75,
+      "name": "wo",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 76,
+      "name": "wo_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 77,
+      "name": "ffn_norm_scale",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 78,
+      "name": "ffn_norm_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 79,
+      "name": "ff1",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 80,
+      "name": "ff1_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 81,
+      "name": "ff2",
+      "shape": [
+        512,
+        512
+      ],
+      "parameters": 262144,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 82,
+      "name": "ff2_bias",
+      "shape": [
+        512
+      ],
+      "parameters": 512,
+      "group_index": 1,
+      "group": "scalar",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 83,
+      "name": "cls_token",
+      "shape": [
+        1,
+        512
+      ],
+      "parameters": 512,
+      "group_index": 0,
+      "group": "matrix",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 84,
+      "name": "head_classifier_proj",
+      "shape": [
+        512,
+        10
+      ],
+      "parameters": 5120,
+      "group_index": 2,
+      "group": "head",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": true,
+      "frozen": false,
+      "buffer": false
+    },
+    {
+      "index": 85,
+      "name": "head_classifier_bias",
+      "shape": [
+        10
+      ],
+      "parameters": 10,
+      "group_index": 2,
+      "group": "head",
+      "optimizer": "adamw",
+      "configured_lr": 0.0003,
+      "configured_weight_decay": 0,
+      "effective_weight_decay": 0,
+      "decay_eligible": false,
+      "frozen": false,
+      "buffer": false
+    }
+  ],
+  "frozen_tensors": 0,
+  "buffer_tensors": 0
+}

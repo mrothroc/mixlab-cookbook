@@ -1,0 +1,34 @@
+{
+  "what": "Step 1 - reproduce the reference at upstream's lr 1e-4 / bs 512 / 200 epochs, with RandAugment disabled via --noaug (which is NOT an upstream default).",
+  "mixlab": {
+    "seeds": {
+      "42": 79.35,
+      "1234": 79.48,
+      "2024": 78.92
+    },
+    "mean": 79.25,
+    "sd": 0.29
+  },
+  "pytorch_reference": {
+    "seeds": {
+      "42": 79.03,
+      "1234": 78.99,
+      "2024": 79.45
+    },
+    "mean": 79.16,
+    "sd": 0.25,
+    "note": "our own run of kentaroy47/vision-transformers-cifar10 @ 79fa30c. NOT unmodified: seven changes were needed (a --seed flag, seeding random/numpy/torch, fixing upstream's `usewandb = ~args.nowandb` bug, MPS device selection, net.to(device) instead of an unconditional net.cuda(), num_workers 8->0 on both loaders, and a log-directory rename). The full diff is in the entry README.",
+    "invocation": "python train_cifar10.py --noaug --nowandb --noamp --n_epochs 200 --seed <42|1234|2024>",
+    "not_upstream_defaults": "--noaug is not a default: upstream declares it action='store_false' and assigns aug = args.noaug, so RandAugment is ON unless the flag is passed. lr 1e-4, bs 512 and n_epochs 200 ARE upstream defaults.",
+    "upstream_checked_in_log": {
+      "file": "log/log_vit_patch4.csv",
+      "final_epoch_acc": 79.08,
+      "caveat": "flags that produced it are not recorded in the log"
+    }
+  },
+  "gap": 0.09,
+  "pre_registered_band": 1.0,
+  "verdict": "PASS",
+  "metric": "final-epoch accuracy on the untouched 10,000-image test split; no checkpoint selection",
+  "schedule_caveat": "Architecture and epoch budget match upstream. The LR trajectory does not exactly: upstream steps its cosine per epoch via scheduler.step(epoch-1); mixlab steps per step. At the start of epoch 100 upstream is 5.157e-05 vs mixlab 5.000e-05."
+}

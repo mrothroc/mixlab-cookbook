@@ -1,0 +1,8 @@
+# The PyTorch reference arm only. The mixlab path needs none of this — see ../requirements.txt.
+torch
+torchvision
+pandas
+einops
+timm
+# wandb is imported unconditionally by upstream; reference.patch fixes the --nowandb bug
+# that made it run anyway, so you do not need a W&B account.

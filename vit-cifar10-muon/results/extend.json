@@ -1,0 +1,82 @@
+{
+  "what": "Step 2 - route the matrix parameter group to Muon. Exploratory: LRs were selected on test.",
+  "arms": {
+    "muon_matrix_lr_0.01": {
+      "seeds": {
+        "42": 86.13,
+        "1234": 85.58,
+        "2024": 85.94
+      },
+      "mean": 85.88,
+      "sd": 0.28
+    },
+    "adamw_lr_3e-4_tuned": {
+      "seeds": {
+        "42": 82.72,
+        "1234": 82.35,
+        "2024": 82.61
+      },
+      "mean": 82.56,
+      "sd": 0.19
+    },
+    "adamw_lr_1e-4_published": {
+      "seeds": {
+        "42": 79.35,
+        "1234": 79.48,
+        "2024": 78.92
+      },
+      "mean": 79.25,
+      "sd": 0.29
+    },
+    "pytorch_reference": {
+      "seeds": {
+        "42": 79.03,
+        "1234": 78.99,
+        "2024": 79.45
+      },
+      "mean": 79.16,
+      "sd": 0.25
+    }
+  },
+  "lr_sweeps_seed42": {
+    "muon_matrix_lr": {
+      "0.003": 83.25,
+      "0.01": 86.13,
+      "0.03": 54.91
+    },
+    "adamw_lr": {
+      "1e-4": 79.35,
+      "3e-4": 82.72,
+      "1e-3": 71.24
+    },
+    "note": "both sweeps found an interior optimum; neither ran off the edge of its grid"
+  },
+  "matched_auxiliary_control": {
+    "design": "optimizer=adamw, lr=1e-4 so embed/head/scalar match the Muon recipe's auxiliaries; only matrix_lr swept. Seed 42.",
+    "why": "codex review: the original arms differed in auxiliary LR as well as matrix optimizer, because setting `lr` moves all four groups.",
+    "sweep_seed42": {
+      "1e-4 (= published arm)": 79.35,
+      "3e-4": 82.4,
+      "1e-3": 52.66
+    },
+    "winner": 82.4,
+    "finding": "Auxiliary LR was not the lever. Matched-auxiliary AdamW at its own best matrix_lr reaches 82.40 at seed 42, versus 82.72 for the global-LR-tuned arm at the same seed \u2014 a 0.32 difference, inside this target's ~0.3 run-to-run noise. The +3.3 from 'tuning AdamW' was the MATRIX group's learning rate specifically.",
+    "conclusion": "Muon's lead is not an artifact of auxiliary-LR mismatch. AdamW given the same separate-matrix-LR freedom does no better than the global-LR-tuned arm already measured."
+  },
+  "headline": {
+    "statement": "Selected Muon recipe 85.88 +/- 0.28 vs best AdamW recipe found 82.56 +/- 0.19 (3 paired seeds each).",
+    "paired_diff": 3.32,
+    "paired_sd": 0.09,
+    "t95_half_width": 0.22,
+    "comparator_choice": "the best AdamW arm measured (global-LR-tuned, 3 seeds) rather than the matched-auxiliary control's 1 seed -- deliberately the more generous comparator",
+    "vs_published_recipe": 6.63,
+    "attribution": "matrix-group LR accounts for ~+3.3 of the gain over the published recipe; the Muon recipe adds a further ~+3.3 on top of the best AdamW found"
+  },
+  "disclosures": [
+    "Learning rates for BOTH arms were selected on the test set (prepare ran with --val-split 0). The test set stayed out of gradients but not out of model selection. This makes the extend phase exploratory, not a held-out confirmation.",
+    "Resolved routing differs from a naive reading of the config: the matrix group holds 39 tensors including position_embeddings [65,512], cls_token [1,512] and input_adapter_proj [48,512]. The embed group is EMPTY. See the optimizer_report_*.json files in this directory. The recipe includes this routing; it has not been shown to depend on it.",
+    "Muon has LOWER test NLL than the global-LR-tuned AdamW arm on all three seeds (0.9996/0.9931/1.0004 vs 1.1965/1.1435/1.2052). An earlier claim of worse calibration compared against the wrong arm.",
+    "Equal step counts are not equal compute. Wall-clock varied >2x across workers within one pinned GPU tier, so no efficiency claim is made.",
+    "Three paired seeds is a pilot. The interval is nominal and conditional on the selected configurations and a fixed test set."
+  ]
+}

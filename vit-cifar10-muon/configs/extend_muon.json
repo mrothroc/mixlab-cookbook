@@ -1,0 +1,117 @@
+{
+  "name": "vit_cifar10_extend_muon",
+  "model_dim": 512,
+  "seq_len": 64,
+  "positional_embedding": "learned_absolute",
+  "norm_type": "layernorm",
+  "norm_affine": true,
+  "final_norm": true,
+  "input_adapter": {
+    "kind": "linear_patches",
+    "image": {
+      "height": 32,
+      "width": 32,
+      "channels": 3
+    },
+    "patch": 4,
+    "bias": true,
+    "norm": "none",
+    "coords": "none",
+    "augment": {
+      "hflip": true,
+      "random_crop_pad": 4,
+      "pad_value": [
+        -2.4290657439446366,
+        -2.418254764292879,
+        -2.2213930348258706
+      ]
+    }
+  },
+  "mlp_mult": 1.0,
+  "embedding_dropout": 0.1,
+  "hidden_dropout": 0.1,
+  "attn_dropout": 0.0,
+  "blocks": [
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "bidirectional",
+      "ffn_activation": "gelu",
+      "ffn_pre_norm": true,
+      "ffn_bias": true,
+      "attn_qkv_bias": false,
+      "attn_out_bias": true
+    },
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "bidirectional",
+      "ffn_activation": "gelu",
+      "ffn_pre_norm": true,
+      "ffn_bias": true,
+      "attn_qkv_bias": false,
+      "attn_out_bias": true
+    },
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "bidirectional",
+      "ffn_activation": "gelu",
+      "ffn_pre_norm": true,
+      "ffn_bias": true,
+      "attn_qkv_bias": false,
+      "attn_out_bias": true
+    },
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "bidirectional",
+      "ffn_activation": "gelu",
+      "ffn_pre_norm": true,
+      "ffn_bias": true,
+      "attn_qkv_bias": false,
+      "attn_out_bias": true
+    },
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "bidirectional",
+      "ffn_activation": "gelu",
+      "ffn_pre_norm": true,
+      "ffn_bias": true,
+      "attn_qkv_bias": false,
+      "attn_out_bias": true
+    },
+    {
+      "type": "plain",
+      "heads": 8,
+      "attention_mask": "bidirectional",
+      "ffn_activation": "gelu",
+      "ffn_pre_norm": true,
+      "ffn_bias": true,
+      "attn_qkv_bias": false,
+      "attn_out_bias": true
+    }
+  ],
+  "training": {
+    "objective": "classification",
+    "classification": {
+      "num_labels": 10,
+      "pooling": "cls",
+      "classifier_dropout": 0.0
+    },
+    "optimizer": "muon",
+    "lr": 0.0001,
+    "weight_decay": 0.0,
+    "batch_tokens": 32768,
+    "steps": 19600,
+    "seed": 42,
+    "weight_init": "pytorch_linear_all",
+    "position_embedding_init_std": 1.0,
+    "cls_token_init_std": 1.0,
+    "warmup_steps": 0,
+    "hold_steps": 0,
+    "min_lr_fraction": 0,
+    "matrix_lr": 0.01
+  }
+}

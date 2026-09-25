@@ -1,0 +1,75 @@
+diff --git a/train_cifar10.py b/train_cifar10.py
+index 55c0919..091f80d 100644
+--- a/train_cifar10.py
++++ b/train_cifar10.py
+@@ -48,12 +48,13 @@ parser.add_argument('--n_epochs', type=int, default='200')
+ parser.add_argument('--patch', default='4', type=int, help="patch for ViT")
+ parser.add_argument('--dimhead', default="512", type=int)
+ parser.add_argument('--convkernel', default='8', type=int, help="parameter for convmixer")
++parser.add_argument('--seed', default=42, type=int)
+ parser.add_argument('--dataset', default='cifar10', type=str, help='dataset to use (cifar10 or cifar100)')
+ 
+ args = parser.parse_args()
+ 
+ # take in args
+-usewandb = ~args.nowandb
++usewandb = not args.nowandb
+ if usewandb:
+     import wandb
+     watermark = "{}_lr{}_{}".format(args.net, args.lr, args.dataset)
+@@ -67,7 +68,10 @@ imsize = int(args.size)
+ use_amp = not args.noamp
+ aug = args.noaug
+ 
+-device = 'cuda' if torch.cuda.is_available() else 'cpu'
++device = 'cuda' if torch.cuda.is_available() else ('mps' if torch.backends.mps.is_available() else 'cpu')
++# apollo: seed everything (the upstream script sets no seed)
++import random
++random.seed(args.seed); np.random.seed(args.seed); torch.manual_seed(args.seed)
+ best_acc = 0  # best test accuracy
+ start_epoch = 0  # start from epoch 0 or last checkpoint epoch
+ 
+@@ -113,10 +117,10 @@ if aug:
+ 
+ # Prepare dataset
+ trainset = dataset_class(root='./data', train=True, download=True, transform=transform_train)
+-trainloader = torch.utils.data.DataLoader(trainset, batch_size=bs, shuffle=True, num_workers=8)
++trainloader = torch.utils.data.DataLoader(trainset, batch_size=bs, shuffle=True, num_workers=0)
+ 
+ testset = dataset_class(root='./data', train=False, download=True, transform=transform_test)
+-testloader = torch.utils.data.DataLoader(testset, batch_size=100, shuffle=False, num_workers=8)
++testloader = torch.utils.data.DataLoader(testset, batch_size=100, shuffle=False, num_workers=0)
+ 
+ # Set up class names based on the dataset
+ if args.dataset == 'cifar10':
+@@ -352,10 +356,10 @@ def test(epoch):
+         torch.save(state, './checkpoint/{}-{}-{}-ckpt.t7'.format(args.net, args.dataset, args.patch))
+         best_acc = acc
+     
+-    os.makedirs("log", exist_ok=True)
++    os.makedirs("apollo_log", exist_ok=True)
+     content = time.ctime() + ' ' + f'Epoch {epoch}, lr: {optimizer.param_groups[0]["lr"]:.7f}, val loss: {test_loss:.5f}, acc: {(acc):.5f}'
+     print(content)
+-    log_file = f'log/log_{args.net}_{args.dataset}_patch{args.patch}.txt'
++    log_file = f'apollo_log/log_{args.net}_{args.dataset}_patch{args.patch}.txt'
+     with open(log_file, 'a') as appender:
+         appender.write(content + "\n")
+     return test_loss, acc
+@@ -366,7 +370,7 @@ list_acc = []
+ if usewandb:
+     wandb.watch(net)
+     
+-net.cuda()
++net.to(device)
+ for epoch in range(start_epoch, args.n_epochs):
+     start = time.time()
+     trainloss = train(epoch)
+@@ -383,7 +387,7 @@ for epoch in range(start_epoch, args.n_epochs):
+         "epoch_time": time.time()-start})
+ 
+     # Write out csv..
+-    csv_file = f'log/log_{args.net}_{args.dataset}_patch{args.patch}.csv'
++    csv_file = f'apollo_log/log_{args.net}_{args.dataset}_patch{args.patch}.csv'
+     with open(csv_file, 'w') as f:
+         writer = csv.writer(f, lineterminator='\n')
+         writer.writerow(list_loss) 
