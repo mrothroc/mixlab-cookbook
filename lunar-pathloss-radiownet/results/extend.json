@@ -1,0 +1,92 @@
+{
+ "what": "the extend: the same stage-1 U-Net with geometry input channels, 50 epochs, stage 1 only, 3 weight seeds",
+ "channels": {
+  "415": [
+   "heightmap",
+   "tx",
+   "log_distance",
+   "los",
+   "clearance",
+   "horizon_margin",
+   "blocked_fraction"
+  ],
+  "58": [
+   "heightmap",
+   "tx",
+   "log_distance",
+   "los",
+   "clearance"
+  ]
+ },
+ "metric": "masked RMSE in dB over valid pixels, official val split (2,330 maps per band), organizers' score_submission.py @ fa3ef9b8",
+ "selection": "best checkpoint by mixlab's per-epoch validation on the same official val split (selection and reporting share the split)",
+ "mixlab": "v0.127.0, CUDA, TF32 on, RTX 4090",
+ "bands": {
+  "415": {
+   "best_by_seed": [
+    3.9451,
+    3.9493,
+    3.969
+   ],
+   "mean": 3.9545,
+   "sd": 0.0128,
+   "vs_reproduction_stage2_mean_db": -0.9281,
+   "vs_published_baseline_test_db": -0.7055
+  },
+  "58": {
+   "best_by_seed": [
+    5.2218,
+    5.2501,
+    5.2417
+   ],
+   "mean": 5.2379,
+   "sd": 0.0146,
+   "vs_reproduction_stage2_mean_db": -1.5389,
+   "vs_published_baseline_test_db": -1.0421
+  }
+ },
+ "matched_ablation": {
+  "what": "2 vs 5 input channels, otherwise identical: 50-epoch stage 1, same init (zero weights on the added channels), same binary (v0.125.0); a held-out 10% of the official train terrains (612 terrains), seeds 0 and 1; 95% CI from a terrain bootstrap",
+  "bands": {
+   "415": {
+    "rmse_2ch": [
+     5.1478,
+     5.1809
+    ],
+    "rmse_5ch": [
+     4.0139,
+     4.0465
+    ],
+    "gain_db": 1.1341,
+    "ci95": [
+     1.0615,
+     1.2125
+    ]
+   },
+   "58": {
+    "rmse_2ch": [
+     7.283,
+     7.4116
+    ],
+    "rmse_5ch": [
+     5.0334,
+     5.0555
+    ],
+    "gain_db": 2.3029,
+    "ci95": [
+     2.1732,
+     2.4388
+    ]
+   }
+  },
+  "seven_vs_five_channels_415": {
+   "gain_db": 0.1287,
+   "ci95": [
+    0.1093,
+    0.1488
+   ],
+   "note": "adding horizon_margin and blocked_fraction; no gain at 5.8 GHz, so that band keeps 5 channels"
+  }
+ },
+ "note": "vs_reproduction compares two recipes (different schedule, stage count and mixlab version), not the channels alone; the matched ablation isolates the channels"
+}

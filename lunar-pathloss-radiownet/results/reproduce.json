@@ -1,0 +1,90 @@
+{
+ "what": "Phase 1b reproduction of the organizers' RadioWNet: stage 1 150 epochs, stage 2 50 epochs, one model per band, 3 weight seeds",
+ "metric": "masked RMSE in dB over valid pixels, official val split (2,330 maps per band), organizers' score_submission.py @ fa3ef9b8",
+ "selection": "best checkpoint by mixlab's per-epoch validation on the same official val split (selection and reporting share the split)",
+ "mixlab": "v0.129.0 (a7813950852a), CUDA, TF32 on (MLX_ENABLE_TF32=1), RTX 4090",
+ "published_baseline_test": {
+  "415": 4.66,
+  "58": 6.28
+ },
+ "registered_band": {
+  "415": [
+   4.16,
+   5.16
+  ],
+  "58": [
+   5.78,
+   6.78
+  ]
+ },
+ "bands": {
+  "415": {
+   "stage1_by_seed": [
+    4.6795,
+    4.8106,
+    5.2318
+   ],
+   "stage2_by_seed": [
+    4.674,
+    4.8042,
+    5.1698
+   ],
+   "stage2_mean": 4.8826,
+   "stage2_sd": 0.2571,
+   "meets_band": true,
+   "margin_to_upper_db": 0.2774,
+   "stage2_strict_fp32_by_seed": [
+    4.6729,
+    4.8041,
+    5.1695
+   ],
+   "stage2_strict_fp32_mean": 4.8822,
+   "gpu_hours_by_seed": {
+    "stage1": [
+     6.65,
+     6.84,
+     7.07
+    ],
+    "stage2": [
+     3.66,
+     3.26,
+     3.95
+    ]
+   }
+  },
+  "58": {
+   "stage1_by_seed": [
+    6.616,
+    6.6561,
+    7.2696
+   ],
+   "stage2_by_seed": [
+    6.5714,
+    6.5898,
+    7.1692
+   ],
+   "stage2_mean": 6.7768,
+   "stage2_sd": 0.3399,
+   "meets_band": true,
+   "margin_to_upper_db": 0.0032,
+   "stage2_strict_fp32_by_seed": [
+    6.5722,
+    6.5895,
+    7.169
+   ],
+   "stage2_strict_fp32_mean": 6.7769,
+   "gpu_hours_by_seed": {
+    "stage1": [
+     6.98,
+     9.32,
+     10.0
+    ],
+    "stage2": [
+     3.99,
+     3.97,
+     3.16
+    ]
+   }
+  }
+ }
+}

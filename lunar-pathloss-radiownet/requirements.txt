@@ -1,0 +1,5 @@
+# Data prep, the reference init and scoring. Training and prediction need the mixlab binary (v0.129.0+).
+# The organizers' loader, model code and scorer import torch; torchvision is imported by their model code.
+numpy>=1.24
+torch>=2.0
+torchvision>=0.15
