@@ -86,5 +86,22 @@
     ]
    }
   }
+ },
+ "schedule_probe": {
+  "what": "one 5.8 GHz model (weight seed 0), same machine (Apple M4 Max), same mixlab binary (v0.123.0) and init, 50+50 vs 150+50 epochs; official val, organizers' scorer",
+  "stage2_50_50": 7.1703,
+  "stage2_150_50": 6.5267
+ },
+ "metal_check": {
+  "what": "the 415 MHz seed-0 stage-2 checkpoint, predicted on Apple Silicon (M1 Max, mixlab v0.131.0) with this README's step 5, scored with the organizers' scorer",
+  "rmse_db_masked": 4.6729,
+  "same_weights_cuda": 4.674
+ },
+ "float64_check": {
+  "what": "the 415 MHz seed-0 stage-2 checkpoint on 80 val maps against the reference module evaluated in float64 on CPU; max abs difference per pixel, dB",
+  "mixlab_cuda_strict_fp32": 0.0047,
+  "pytorch_cuda_strict_fp32": 0.0898,
+  "mixlab_metal": 0.0036,
+  "pytorch_cpu_fp32": 0.0029
  }
 }

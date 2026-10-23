@@ -86,7 +86,20 @@
     0.1488
    ],
    "note": "adding horizon_margin and blocked_fraction; no gain at 5.8 GHz, so that band keeps 5 channels"
-  }
+  },
+  "mixlab": "v0.125.0"
  },
- "note": "vs_reproduction compares two recipes (different schedule, stage count and mixlab version), not the channels alone; the matched ablation isolates the channels"
+ "note": "vs_reproduction compares two recipes (different schedule, stage count and mixlab version), not the channels alone; the matched ablation isolates the channels",
+ "gpu_hours_by_seed": {
+  "415": [
+   4.54,
+   4.54,
+   3.72
+  ],
+  "58": [
+   2.84,
+   4.01,
+   3.89
+  ]
+ }
 }

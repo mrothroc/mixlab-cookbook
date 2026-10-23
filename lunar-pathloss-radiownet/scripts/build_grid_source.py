@@ -48,24 +48,6 @@ def _records(ds, n: int, band: str, np_dtype, shape: tuple):
                float(np.abs(sx.astype(np.float32) - xi).max()), float(np.abs(sy.astype(np.float32) - yi).max()))
 
 
-def stream_digest(root, *, band, dtype, splits=SPLITS) -> dict:
-    """`source_digest.full_digest` of the source `build` would write, computed without writing any array."""
-    import source_digest as sd
-    root = Path(root)
-    ld = load_loader(root)
-    per = {}
-    for split in splits:
-        ds = ld.LunarRadioMapDataset(str(root), split=split, band=band, normalize=True, augment=False,
-                                     return_mask=True)
-        recs, ids, groups = [], [], []
-        for sx, sy, mi, rid, grp, _ie, _te in _records(ds, len(ds), band, np.dtype(dtype), ld.GRID):
-            recs.append(sd.record_sha(sx, sy, mi))
-            ids.append(rid)
-            groups.append(grp)
-        per[split] = (recs, ids, groups)
-    return sd.combine(per)
-
-
 def build(root, out, *, band, dtype, splits=SPLITS, limits=None, records_per_shard=64) -> dict:
     root, out = Path(root), Path(out)
     if band not in BANDS:
