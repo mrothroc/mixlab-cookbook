@@ -38,8 +38,8 @@ weight seeds per model; `±` is the sample standard deviation across seeds.
 ### How close is the reproduction?
 
 We fixed what would count as a match before training: the three-seed average had to land within 0.5 dB of the
-published number in each band. At 415 MHz it lands 0.22 dB above. At 5.8 GHz it lands 0.497 dB above, clearing the
-limit by just 0.003 dB, so that band is a near miss. Two more things to know:
+published number in each band. At 415 MHz it lands 0.22 dB above. At 5.8 GHz it lands 0.497 dB above, so it passes,
+but only just: by 0.003 dB. Two more things to know:
 
 - **Different splits.** The published numbers are on the test set, whose answers are still withheld. Ours are on
   the validation split. We also picked each run's best epoch on that same split, which flatters our numbers
@@ -49,8 +49,8 @@ limit by just 0.003 dB, so that band is a near miss. Two more things to know:
   learning, which varies from seed to seed.
 
 The published recipe doesn't say how many epochs produced its numbers. The repo defaults to 50 + 50, but stage 1 is
-still improving at epoch 50. Trained on the same machine from the same init, one 5.8 GHz model went from 7.17 dB at
-50 + 50 to 6.53 dB at 150 + 50, so this recipe uses 150 + 50.
+still improving at epoch 50. Trained on the same machine (an Apple M4 Max, mixlab v0.123.0) from the same init, one 5.8 GHz model went from
+7.17 dB at 50 + 50 to 6.53 dB at 150 + 50, so this recipe uses 150 + 50.
 
 ### Where the extend's gain comes from
 
@@ -64,8 +64,8 @@ stage-1 run with 2 or with 5 input channels, otherwise identical (two seeds each
 | 415 MHz | 5.15 / 5.18 | 4.01 / 4.05 | 1.13 dB (1.06–1.21) |
 | 5.8 GHz | 7.28 / 7.41 | 5.03 / 5.06 | 2.30 dB (2.17–2.44) |
 
-At 415 MHz, two more channels (seven in all) add another 0.13 dB (0.11–0.15). At 5.8 GHz they add nothing, so that
-band keeps five.
+At 415 MHz, two more channels (seven in all) add another 0.13 dB (0.11–0.15). At 5.8 GHz they made no difference in
+a shorter screen (+0.006 dB, −0.007 to 0.019), so that band keeps five.
 
 Every number here, with its source, is in [`results/reproduce.json`](results/reproduce.json) and
 [`results/extend.json`](results/extend.json).
@@ -90,8 +90,7 @@ The extend reads seven:
 ```
 
 That's not quite a one-line change, because every convolution that reads the raw input has to grow to match: the
-first layer, and the two places where the U-Net concatenates the input back in. The config widens the matching three
-kernels of the second U-Net too, though stage-1-only training never uses them.
+first layer, and the two places where the U-Net concatenates the input back in.
 `configs/extend_58.json` reads the same seven-channel data and keeps the first five with a `slice` op at the top of the
 graph:
 
@@ -130,8 +129,10 @@ Run everything from this recipe's directory, `lunar-pathloss-radiownet/`:
 ```bash
 python3.12 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-export PATH="$PWD/.venv/bin:$PATH"    # so mixlab's prepare finds python3 + numpy
 ```
+
+mixlab's `prepare` calls `python3` and needs NumPy, which the activated venv provides, so re-activate it in each new
+shell.
 
 Then get the organizers' code at the pinned commit. The recipe uses their data loader, model code and scorer as they
 are, so it links to them rather than copying them:
@@ -153,7 +154,7 @@ once the shards are written. The extend's seven-channel shards are stored as flo
 ## Reproduce it
 
 First time? Do the [small run](#try-it-small-first) below before the full one: it checks every step in about 10
-minutes.
+minutes. Everything the commands write (shards, runs, predictions, scores) lands in this directory.
 
 One band, one weight seed. Set `B=58` for 5.8 GHz and `S=1` or `S=2` for the other seeds; the paths include both, so
 runs don't overwrite each other.
@@ -193,7 +194,7 @@ python lunar-radiomap-challenge/score_submission.py --submission sub_${B}_seed$S
   --data-root data/LunarRM --band $B --out score_${B}_seed$S.json
 ```
 
-On an RTX 4090, stage 1 took 7–10 hours and stage 2 3–4 hours per model. Scoring takes about 5 minutes and prints
+On an RTX 4090, stage 1 took 7–10 hours and stage 2 3–4 hours per model. Scoring takes 5–10 minutes and prints
 nothing until it finishes. The configs
 run unchanged on Apple Silicon, just more slowly: as a check, our 415 MHz seed-0 model scored 4.673 dB through step 5
 on an M1 Max, against 4.674 from the same weights on CUDA.
@@ -208,7 +209,7 @@ When stage 1 starts, mixlab lists 38 trainable and 38 frozen-or-unreachable weig
 ### Try it small first
 
 To check the whole chain before committing hours, train on a small slice with short configs. On an M1 Max this takes
-about 10–15 minutes and about 5 GB of disk, most of it spent predicting and scoring the full val split, which the
+about 10 minutes and about 4 GB of disk, most of it spent predicting and scoring the full val split, which the
 scorer needs.
 
 ```bash
@@ -222,12 +223,12 @@ terrible (a 4-step model scores in the high 40s of dB), but every command runs.
 
 ## Extend it
 
-The same flow, with the geometry builder and the extend configs. `val-gt` from step 5 is reused, so skip it if you've
-already run it for this band.
+The same flow, with the geometry builder and the extend configs.
 
 ```bash
 B=415; C=7; S=0       # 5.8 GHz: B=58; C=5 (its config reads the first five of the seven channels)
 EXT=configs/extend_$B.json
+# EXT=configs/extend_${B}_smoke.json    # for a smoke run, with --limit train=32 on the builder
 
 python scripts/build_geometry_source.py --root data/LunarRM --out gsrc_$B --band $B \
   --layout official --inputs geometry2 --workers 8
@@ -242,18 +243,19 @@ mixlab -mode arch -config $EXT -train gshards_$B/mixlab.dataset.json \
 
 mixlab -mode predict-grid -config $EXT -safetensors-load runs/extend_${B}_seed$S/best.safetensors \
   -grid-in gshards_$B/mixlab.dataset.json -grid-split val -grid-out epred_${B}_seed$S
+python scripts/to_submission.py val-gt --data-root data/LunarRM --gt-root gt_$B --band $B    # skip if gt_$B exists
 python scripts/to_submission.py submission --pred-dir epred_${B}_seed$S --out esub_${B}_seed$S --band $B \
   --meta data/LunarRM/metadata.json
 python lunar-radiomap-challenge/score_submission.py --submission esub_${B}_seed$S --gt-root gt_$B \
   --data-root data/LunarRM --band $B --out escore_${B}_seed$S.json
 ```
 
-A 50-epoch run took 3–4.5 hours on an RTX 4090. For a smoke run, set `EXT=configs/extend_${B}_smoke.json` and add
-`--limit train=32` to the builder. A 4-step extend model barely moves from its starting point (around 52 dB), which is
-expected: the new channels start at zero weight.
+A 50-epoch run took 2.8–4.5 hours on an RTX 4090. A smoke-run extend model barely moves from its starting point
+(around 52 dB at 415 MHz, 77 dB at 5.8 GHz), which is expected after four steps.
 
-The geometry features are computed on the CPU, and that's the slow part: about 25 minutes for the val split alone with
-8 workers on an M1 Max, so allow several hours for a full band. Our runs built the same training records in a
+The geometry features are computed on the CPU, and that's the slow part: 12–25 minutes for the val split alone with 8
+workers on an M1 Max, so allow several hours for a full band. A smoke run still builds the whole val split, so this
+step is most of its time. Our runs built the same training records in a
 different order, so your data order, and your exact numbers, will differ slightly.
 
 ## Files
@@ -280,10 +282,9 @@ results/extend.json               per-seed extend scores, timings, and the match
   a finished run can't be extended by resuming: for a different length, start a fresh run.
 - **The init matters.** On this data, mixlab's default initialization can leave every output pixel at zero after
   the final ReLU and never recover. The reference init doesn't, which is why the recipe converts it.
-- **Precision.** On CUDA, mixlab uses TF32 for convolutions by default, as our runs did; strict FP32
-  (`MLX_ENABLE_TF32=0`) moved the three-seed averages by less than 0.001 dB. On Apple Silicon with neural
-  accelerators, recent mixlab allows reduced precision too, and the startup banner says so
-  ("reduced precision allowed ..."). `MLX_ENABLE_TF32=0` turns it off there as well.
+- **Precision.** mixlab allows reduced precision by default on CUDA (TF32, as our runs used) and on recent Apple
+  Silicon, and its startup banner says which. `MLX_ENABLE_TF32=0` gives strict FP32; it moved our three-seed
+  averages by less than 0.001 dB.
 - **Comparing with PyTorch.** If you load the weights into the reference module
   (`mixlab -mode export-torch-state` writes them) to compare outputs, do it on the CPU or in float64. On an RTX 4090,
   PyTorch's own FP32 convolutions were the larger source of disagreement.
