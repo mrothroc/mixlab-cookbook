@@ -162,13 +162,20 @@ runs don't overwrite each other.
 There are two seeds in play. `seed: 42` in the configs fixes the data order and augmentation and stays as it is. The
 weight seed is `S`, which picks the reference initialization. Our runs used weight seeds 0, 1 and 2.
 
+First the settings:
+
 ```bash
 B=415; S=0            # band (415 or 58) and weight seed (0, 1 or 2)
 STAGE1=configs/reproduce_stage1.json
 STAGE2=configs/reproduce_stage2.json
+LIMIT=                # the full data; the small run below sets this
+```
 
+Then the steps, which run as-is for both the full and the small run:
+
+```bash
 # 1. the organizers' arrays -> grid records (via their own loader) -> mixlab shards
-python scripts/build_grid_source.py --root data/LunarRM --out src_$B --band $B --dtype float32
+python scripts/build_grid_source.py --root data/LunarRM --out src_$B --band $B --dtype float32 $LIMIT
 mixlab -mode prepare -input-format grid -input src_$B/source.json -prepare-output-dir shards_$B
 rm -rf src_$B
 
@@ -212,26 +219,34 @@ To check the whole chain before committing hours, train on a small slice with sh
 about 10 minutes and about 4 GB of disk, most of it spent predicting and scoring the full val split, which the
 scorer needs.
 
+Use these settings instead of the ones above, then run the steps block unchanged:
+
 ```bash
 python scripts/make_smoke_configs.py                  # writes configs/*_smoke.json: 4 steps, one validation
+B=415; S=0
 STAGE1=configs/reproduce_stage1_smoke.json
 STAGE2=configs/reproduce_stage2_smoke.json
+LIMIT=--limit=train=32                                # a small training slice; val stays whole for the scorer
 ```
 
-Then run steps 1–5 as above, adding `--limit train=32` to `build_grid_source.py` in step 1. The score will be
-terrible (a 4-step model scores in the high 40s of dB), but every command runs.
+The score will be terrible (a 4-step model scores in the high 40s of dB), but every command runs.
 
 ## Extend it
 
-The same flow, with the geometry builder and the extend configs.
+The same flow, with the geometry builder and the extend configs. The settings:
 
 ```bash
 B=415; C=7; S=0       # 5.8 GHz: B=58; C=5 (its config reads the first five of the seven channels)
 EXT=configs/extend_$B.json
-# EXT=configs/extend_${B}_smoke.json    # for a smoke run, with --limit train=32 on the builder
+LIMIT=
+```
 
+For a small run instead, run `python scripts/make_smoke_configs.py` if you haven't, and use
+`EXT=configs/extend_${B}_smoke.json` and `LIMIT=--limit=train=32`. Then the steps:
+
+```bash
 python scripts/build_geometry_source.py --root data/LunarRM --out gsrc_$B --band $B \
-  --layout official --inputs geometry2 --workers 8
+  --layout official --inputs geometry2 --workers 8 $LIMIT
 mixlab -mode prepare -input-format grid -input gsrc_$B/source.json -prepare-output-dir gshards_$B
 rm -rf gsrc_$B
 
@@ -253,7 +268,7 @@ python lunar-radiomap-challenge/score_submission.py --submission esub_${B}_seed$
 A 50-epoch run took 2.8–4.5 hours on an RTX 4090. A smoke-run extend model barely moves from its starting point
 (around 52 dB at 415 MHz, 77 dB at 5.8 GHz), which is expected after four steps.
 
-The geometry features are computed on the CPU, and that's the slow part: 12–25 minutes for the val split alone with 8
+The geometry features are computed on the CPU, and that's the slow part: 6–25 minutes for the val split alone with 8
 workers on an M1 Max, so allow several hours for a full band. A smoke run still builds the whole val split, so this
 step is most of its time. Our runs built the same training records in a
 different order, so your data order, and your exact numbers, will differ slightly.
@@ -288,8 +303,9 @@ results/extend.json               per-seed extend scores, timings, and the match
 - **Comparing with PyTorch.** If you load the weights into the reference module
   (`mixlab -mode export-torch-state` writes them) to compare outputs, do it on the CPU or in float64. On an RTX 4090,
   PyTorch's own FP32 convolutions were the larger source of disagreement.
-- **Validation, not test.** Test answers arrive with the challenge's evaluation release, so every number here is on
-  the validation split until then.
+- **Validation, not test.** The recipe's scores are on the official validation split, the published baseline's on
+  the test set, and the matched comparisons on held-out training terrains. Test answers arrive with the challenge's
+  evaluation release.
 
 ## Where to go next
 
