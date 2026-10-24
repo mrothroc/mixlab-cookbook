@@ -124,7 +124,8 @@ per the mixlab README). The reproduction was trained on v0.129.0; the extend on 
 unchanged on newer versions. We tested the commands below on v0.131.0.
 
 Data prep, the reference init and scoring use Python. Use a version PyTorch publishes wheels for (3.10–3.12 is safe;
-a brand-new Python may not have them yet):
+a brand-new Python may not have them yet). We tested with Python 3.12, NumPy 2.5, PyTorch 2.14 and torchvision 0.29.
+Run everything from this recipe's directory, `lunar-pathloss-radiownet/`:
 
 ```bash
 python3.12 -m venv .venv && source .venv/bin/activate
@@ -150,6 +151,9 @@ The recipe expects the flat layout they unpack to: `train_hm.npy`, `train_pl415.
 once the shards are written. The extend's seven-channel shards are stored as float16, about 31 GB per band.
 
 ## Reproduce it
+
+First time? Do the [small run](#try-it-small-first) below before the full one: it checks every step in about 10
+minutes.
 
 One band, one weight seed. Set `B=58` for 5.8 GHz and `S=1` or `S=2` for the other seeds; the paths include both, so
 runs don't overwrite each other.
@@ -189,12 +193,14 @@ python lunar-radiomap-challenge/score_submission.py --submission sub_${B}_seed$S
   --data-root data/LunarRM --band $B --out score_${B}_seed$S.json
 ```
 
-On an RTX 4090, stage 1 took 7–10 hours and stage 2 3–4 hours per model. Scoring takes a few minutes. The configs
+On an RTX 4090, stage 1 took 7–10 hours and stage 2 3–4 hours per model. Scoring takes about 5 minutes and prints
+nothing until it finishes. The configs
 run unchanged on Apple Silicon, just more slowly: as a check, our 415 MHz seed-0 model scored 4.673 dB through step 5
 on an M1 Max, against 4.674 from the same weights on CUDA.
 
 `val-gt` lays out the validation answers the way the scorer expects test answers, so the scorer runs unmodified. It
-refuses a partial submission, so step 5 needs predictions for all 2,330 maps.
+refuses a partial submission, so step 5 needs predictions for all 2,330 maps. Its warning about a missing
+`runtime.json` is about the challenge's timing report and doesn't matter for scoring validation.
 
 When stage 1 starts, mixlab lists 38 trainable and 38 frozen-or-unreachable weights, and the second list names the
 `W*` layers. That's expected: stage 1 trains the first U-Net, and the second one waits for stage 2.
@@ -202,7 +208,8 @@ When stage 1 starts, mixlab lists 38 trainable and 38 frozen-or-unreachable weig
 ### Try it small first
 
 To check the whole chain before committing hours, train on a small slice with short configs. On an M1 Max this takes
-about 10 minutes, most of it validating and scoring the full val split, which the scorer needs.
+about 10–15 minutes and about 5 GB of disk, most of it spent predicting and scoring the full val split, which the
+scorer needs.
 
 ```bash
 python scripts/make_smoke_configs.py                  # writes configs/*_smoke.json: 4 steps, one validation
