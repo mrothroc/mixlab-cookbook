@@ -31,33 +31,33 @@ weight seeds per model; `±` is the sample standard deviation across seeds.
 
 | model | 415 MHz | 5.8 GHz |
 |---|---|---|
-| **extend:** stage 1 + geometry channels, 50 epochs | **3.95 ± 0.01** | **5.24 ± 0.01** |
-| **reproduce:** RadioWNet, 150 + 50 epochs | 4.88 ± 0.26 | 6.78 ± 0.34 |
+| **geometry variant:** stage 1 + geometry channels, 50 epochs | **3.95 ± 0.01** | **5.24 ± 0.01** |
+| **reproduction:** RadioWNet, 150 + 50 epochs | 4.88 ± 0.26 | 6.78 ± 0.34 |
 | the organizers' baseline, as published (test set) | 4.66 | 6.28 |
 
 ### How close is the reproduction?
 
 We fixed what would count as a match before training: the three-seed average had to land within 0.5 dB of the
-published number in each band. At 415 MHz it lands 0.22 dB above. At 5.8 GHz it lands 0.497 dB above, so it passes,
-but only just: by 0.003 dB. Two more things to know:
+published number in each band. At 415 MHz it lands 0.22 dB above. At 5.8 GHz it lands 0.497 dB above, only 0.003 dB
+inside that threshold. The splits differ, and the seed spread is wide:
 
-- **Different splits.** The published numbers are on the test set, whose answers are still withheld. Ours are on
-  the validation split. We also picked each run's best epoch on that same split, which flatters our numbers
-  slightly.
+- **Different splits.** The published numbers are on the test set, whose answers arrive with the challenge's
+  evaluation release. Ours are on the validation split. We also picked each run's best epoch on that same split,
+  which flatters our numbers slightly.
 - **Seed spread.** In both bands one of the three seeds lands above the limit on its own, and the spread across
   seeds is wide (0.26 and 0.34 dB). Most of it comes from how long stage 1 sits on a plateau before it starts
   learning, which varies from seed to seed.
 
 The published recipe doesn't say how many epochs produced its numbers. The repo defaults to 50 + 50, but stage 1 is
-still improving at epoch 50. Trained on the same machine (an Apple M4 Max, mixlab v0.123.0) from the same init, one 5.8 GHz model went from
-7.17 dB at 50 + 50 to 6.53 dB at 150 + 50, so this recipe uses 150 + 50.
+still improving at epoch 50. Trained on the same machine (an Apple M4 Max, mixlab v0.123.0) from the same init, one
+5.8 GHz model went from 7.17 dB at 50 + 50 to 6.53 dB at 150 + 50, so this recipe uses 150 + 50.
 
-### Where the extend's gain comes from
+### Where the geometry variant's gain comes from
 
-The extend changes several things at once compared with the reproduction: the inputs, the schedule (50 epochs, not
-150 + 50), the stage count and the mixlab version. So "0.93 dB and 1.54 dB better" is a recipe-to-recipe comparison.
-To isolate the channels, we ran a matched pair on a held-out tenth of the training terrains: the same 50-epoch
-stage-1 run with 2 or with 5 input channels, otherwise identical (two seeds each, mixlab v0.125.0).
+The geometry variant changes several things at once compared with the reproduction: the inputs, the schedule (50
+epochs, not 150 + 50), the stage count and the mixlab version. So "0.93 dB and 1.54 dB better" is a recipe-to-recipe
+comparison. To isolate the channels, we ran a matched pair on a held-out tenth of the training terrains: the same
+50-epoch stage-1 run with 2 or with 5 input channels, otherwise identical (two seeds each, mixlab v0.125.0).
 
 | band | 2 channels | 5 channels | gain (95% CI) |
 |---|---|---|---|
@@ -83,13 +83,13 @@ The network's structure doesn't change except for its input width. The reproduct
 "input_adapter": { "kind": "grid", "channels": 2, "height": 256, "width": 256 }
 ```
 
-The extend reads seven:
+The geometry variant reads seven:
 
 ```json
 "input_adapter": { "kind": "grid", "channels": 7, "height": 256, "width": 256 }
 ```
 
-That's not quite a one-line change, because every convolution that reads the raw input has to grow to match: the
+Every convolution that reads the raw input also has to grow to match: the
 first layer, and the two places where the U-Net concatenates the input back in.
 `configs/extend_58.json` reads the same seven-channel data and keeps the first five with a `slice` op at the top of the
 graph:
@@ -119,7 +119,7 @@ additional features").
 ## Setup
 
 You'll need the [mixlab](https://github.com/mrothroc/mixlab) binary, **v0.129.0 or newer**, on your PATH (install it
-per the mixlab README). The reproduction was trained on v0.129.0; the extend on v0.127.0, and its configs run
+per the mixlab README). The reproduction was trained on v0.129.0; the geometry variant on v0.127.0, and its configs run
 unchanged on newer versions. We tested the commands below on v0.131.0.
 
 Data prep, the reference init and scoring use Python. Use a version PyTorch publishes wheels for (3.10–3.12 is safe;
@@ -149,7 +149,7 @@ The recipe expects the flat layout they unpack to: `train_hm.npy`, `train_pl415.
 `lunar_dataset.py` and `metadata.json`.
 
 **Disk.** One band's float32 records take about 24 GB and its mixlab shards about 20 GB; you can delete the records
-once the shards are written. The extend's seven-channel shards are stored as float16, about 31 GB per band.
+once the shards are written. The geometry variant's seven-channel shards are stored as float16, about 31 GB per band.
 
 ## Reproduce it
 
@@ -233,7 +233,7 @@ The score will be terrible (a 4-step model scores in the high 40s of dB), but ev
 
 ## Extend it
 
-The same flow, with the geometry builder and the extend configs. The settings:
+The same flow, with the geometry builder and the geometry configs. The settings:
 
 ```bash
 B=415; C=7; S=0       # 5.8 GHz: B=58; C=5 (its config reads the first five of the seven channels)
@@ -265,7 +265,7 @@ python lunar-radiomap-challenge/score_submission.py --submission esub_${B}_seed$
   --data-root data/LunarRM --band $B --out escore_${B}_seed$S.json
 ```
 
-A 50-epoch run took 2.8–4.5 hours on an RTX 4090. A smoke-run extend model barely moves from its starting point
+A 50-epoch run took 2.8–4.5 hours on an RTX 4090. A smoke-run geometry model barely moves from its starting point
 (around 52 dB at 415 MHz, 77 dB at 5.8 GHz), which is expected after four steps.
 
 The geometry features are computed on the CPU, and that's the slow part: 6–25 minutes for the val split alone with 8
@@ -303,9 +303,6 @@ results/extend.json               per-seed extend scores, timings, and the match
 - **Comparing with PyTorch.** If you load the weights into the reference module
   (`mixlab -mode export-torch-state` writes them) to compare outputs, do it on the CPU or in float64. On an RTX 4090,
   PyTorch's own FP32 convolutions were the larger source of disagreement.
-- **Validation, not test.** The recipe's scores are on the official validation split, the published baseline's on
-  the test set, and the matched comparisons on held-out training terrains. Test answers arrive with the challenge's
-  evaluation release.
 
 ## Where to go next
 
@@ -318,10 +315,10 @@ results/extend.json               per-seed extend scores, timings, and the match
 
 ## Exercising and enhancing mixlab
 
-The pieces this recipe uses, all of which you can reuse for other image-shaped regression problems:
-`prepare -input-format grid` for image records, a custom graph of `conv2d`, `conv_transpose2d`, `max_pool2d`, `concat`
-and `slice` ops, the `dense_regression` objective with masked MSE, joint dihedral augmentation, two-stage training with
-`freeze`, `predict-grid` for writing predictions, and `export-torch-state` for loading the weights back into PyTorch.
+You can reuse these pieces for other image-shaped regression problems. `prepare -input-format grid` handles image
+records; the custom graph uses `conv2d`, `conv_transpose2d`, `max_pool2d`, `concat` and `slice`. Training uses
+`dense_regression` with masked MSE, joint dihedral augmentation, and `freeze` for the two stages. `predict-grid` writes
+predictions, and `export-torch-state` loads the weights back into PyTorch.
 mixlab: https://github.com/mrothroc/mixlab
 
 ## Citing this work
