@@ -164,8 +164,8 @@ pip install -r requirements.txt
 mixlab's `prepare` calls `python3` and needs NumPy, which the activated venv provides, so re-activate it in each new
 shell.
 
-Then get the organizers' code at the pinned commit. The recipe uses their data loader, model code and scorer as they
-are, so it links to them rather than copying them:
+Then get the organizers' code at the pinned commit. The recipe uses their data loader and scorer as they are, and their
+model code to build the starting weights, so it links to them rather than copying them:
 
 ```bash
 git clone https://github.com/anderspearson206/lunar-radiomap-challenge
