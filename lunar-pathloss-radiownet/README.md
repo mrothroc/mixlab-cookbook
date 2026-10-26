@@ -12,8 +12,8 @@ data loader and scorer, and the [challenge site](https://lunarradiomapchallenge.
 (415 MHz) and **6.28 dB** (5.8 GHz) on the test set.
 
 This recipe rebuilds that model in [mixlab](https://github.com/mrothroc/mixlab) from a JSON config. It is the same
-model, not an approximation: it starts from the reference's own PyTorch initialization, and given the same weights its
-predictions stay within 0.005 dB of a float64 run of the organizers' code at every pixel we checked. Trained for
+network, not an approximation: it starts from the reference's own PyTorch initialization, and on a trained checkpoint
+we checked, its predictions stay within 0.005 dB of a float64 run of the organizers' code at every pixel. Trained for
 150 + 50 epochs, it reaches **4.88 dB** and **6.78 dB** on the official validation split, averaged over three seeds.
 The published numbers are on the test set from an unstated number of epochs, so they're a reference point rather than
 a like-for-like target. The recipe was worked out on a Mac and then scaled up on rented GPUs, and the same configs run
@@ -210,6 +210,7 @@ mixlab -mode prepare -input-format grid -input src_$B/source.json -prepare-outpu
 rm -rf src_$B
 
 # 2. the reference initialization: torch.manual_seed(S); RadioWNet(inputs=2), converted to mixlab's layout
+#    (it runs a one-step mixlab job to read that layout, so it needs the GPU too)
 python scripts/make_init.py --config $STAGE1 --dataset shards_$B/mixlab.dataset.json \
   --reference-repo lunar-radiomap-challenge --seed $S --out inits/seed${S}_2ch.safetensors
 
@@ -231,7 +232,7 @@ python lunar-radiomap-challenge/score_submission.py --submission sub_${B}_seed$S
   --data-root data/LunarRM --band $B --out score_${B}_seed$S.json
 ```
 
-On an RTX 4090, stage 1 took 7–10 hours and stage 2 3–4 hours per model. Scoring takes 5–10 minutes and prints
+On an RTX 4090, stage 1 took 6.5–10 hours and stage 2 3–4 hours per model. Scoring takes 5–10 minutes and prints
 nothing until it finishes. The configs
 run unchanged on Apple Silicon, just more slowly: as a check, our 415 MHz seed-0 model scored 4.673 dB through step 5
 on an M1 Max, against 4.674 from the same weights on CUDA.
@@ -252,14 +253,20 @@ scorer needs.
 Use these settings instead of the ones above, then run the steps block unchanged:
 
 ```bash
-python scripts/make_smoke_configs.py                  # writes configs/*_smoke.json: 4 steps, one validation
+python scripts/make_smoke_configs.py                  # writes configs/*_smoke.json: 4 training steps each
 B=415; S=0
 STAGE1=configs/reproduce_stage1_smoke.json
 STAGE2=configs/reproduce_stage2_smoke.json
 LIMIT=--limit=train=32                                # a small training slice; val stays whole for the scorer
 ```
 
-The score will be terrible (a 4-step model scores in the high 40s of dB), but every command runs.
+The score will be terrible (a 4-step model scores in the high 40s of dB), but every command runs. Before a full run,
+clear the small run's outputs, since the full run writes to the same places:
+
+```bash
+rm -rf shards_$B inits runs/stage1_${B}_seed$S runs/stage2_${B}_seed$S pred_${B}_seed$S sub_${B}_seed$S \
+  score_${B}_seed$S.json
+```
 
 ## Extend it
 
@@ -272,7 +279,9 @@ LIMIT=
 ```
 
 For a small run instead, run `python scripts/make_smoke_configs.py` if you haven't, and use
-`EXT=configs/extend_${B}_smoke.json` and `LIMIT=--limit=train=32`. Then the steps:
+`EXT=configs/extend_${B}_smoke.json` and `LIMIT=--limit=train=32`; afterwards, clear its outputs before a full run with
+`rm -rf gshards_$B inits runs/extend_${B}_seed$S epred_${B}_seed$S esub_${B}_seed$S escore_${B}_seed$S.json`. Then the
+steps:
 
 ```bash
 python scripts/build_geometry_source.py --root data/LunarRM --out gsrc_$B --band $B \

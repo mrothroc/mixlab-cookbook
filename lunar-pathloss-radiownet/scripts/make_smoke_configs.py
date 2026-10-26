@@ -1,7 +1,7 @@
 """Write short `*_smoke.json` copies of the recipe's configs, for checking the whole chain in a few minutes.
 
-Each copy keeps the model and optimizer and cuts training to two phases of two steps, with one validation at the
-end, so `best.safetensors` is written. Scores from these runs are meaningless (high 40s to 50s of dB); the point is
+Each copy keeps the model and optimizer and cuts training to two phases of two steps, validating at the end so
+`best.safetensors` is written (mixlab also validates once before the first step). Scores from these runs are meaningless (high 40s to 50s of dB); the point is
 that every command runs.
 
 Usage: python scripts/make_smoke_configs.py      # writes configs/<name>_smoke.json for all four configs
