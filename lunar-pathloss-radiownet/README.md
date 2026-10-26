@@ -16,7 +16,8 @@ model, not an approximation: it starts from the reference's own PyTorch initiali
 predictions stay within 0.005 dB of a float64 run of the organizers' code at every pixel we checked. Trained for
 150 + 50 epochs, it reaches **4.88 dB** and **6.78 dB** on the official validation split, averaged over three seeds.
 The published numbers are on the test set from an unstated number of epochs, so they're a reference point rather than
-a like-for-like target.
+a like-for-like target. The recipe was worked out on a Mac and then scaled up on rented GPUs, and the same configs run
+on both.
 
 Then it gives the same U-Net a few extra input channels computed from the terrain (distance, a line-of-sight estimate,
 clearance). That brings it to **3.95 dB** and **5.24 dB**, with a shorter training run.
@@ -72,9 +73,14 @@ inside that threshold. The splits differ, and the seed spread is wide:
   seeds is wide (0.26 and 0.34 dB). Most of it comes from how long stage 1 sits on a plateau before it starts
   learning, which varies from seed to seed.
 
-The published recipe doesn't say how many epochs produced its numbers. The repo defaults to 50 + 50, but stage 1 is
-still improving at epoch 50. Trained on the same machine (an Apple M4 Max, mixlab v0.123.0) from the same init, one
-5.8 GHz model went from 7.17 dB at 50 + 50 to 6.53 dB at 150 + 50, so this recipe uses 150 + 50.
+### How it was built: Mac first, then CUDA
+
+The published recipe doesn't say how many epochs produced its numbers, and that turned out to matter. The first pass
+ran on an Apple M4 Max: three seeds per band at the repo's default 50 + 50 epochs. It came in high, at
+5.18 and 7.63 dB, and the training curves showed why: stage 1 was still improving at epoch 50. A longer run on the
+same Mac, from the same init, took one 5.8 GHz model from 7.17 to 6.53 dB at 150 + 50. With the schedule settled, the
+three-seed runs in the table above went to rented RTX 4090s, with no change to the configs. The Mac runs are in
+[`results/reproduce.json`](results/reproduce.json) under `mac_first_pass` and `schedule_probe`.
 
 ### Where the geometry variant's gain comes from
 

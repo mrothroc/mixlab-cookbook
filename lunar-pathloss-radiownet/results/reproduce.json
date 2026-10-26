@@ -103,5 +103,27 @@
   "pytorch_cuda_strict_fp32": 0.0898,
   "mixlab_metal": 0.0036,
   "pytorch_cpu_fp32": 0.0029
+ },
+ "mac_first_pass": {
+  "what": "first pass on Apple Silicon (Apple M4 Max, mixlab v0.123.0): RadioWNet at the repo's default 50 + 50 epochs, 3 weight seeds per band, stage-2 best epoch; official val, organizers' scorer. Superseded by the 150 + 50 recipe",
+  "epochs": "50 + 50",
+  "415_mhz": {
+   "per_seed": [
+    5.0655,
+    5.3418,
+    5.12
+   ],
+   "mean": 5.1758,
+   "sd": 0.1464
+  },
+  "5_8_ghz": {
+   "per_seed": [
+    7.1703,
+    7.6154,
+    8.1011
+   ],
+   "mean": 7.6289,
+   "sd": 0.4655
+  }
  }
 }
