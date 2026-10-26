@@ -11,10 +11,15 @@ The organizers' baseline is RadioWNet, the two-stage U-Net from
 data loader and scorer, and the [challenge site](https://lunarradiomapchallenge.github.io/) reports **4.66 dB**
 (415 MHz) and **6.28 dB** (5.8 GHz) on the test set.
 
-This recipe rebuilds that model in [mixlab](https://github.com/mrothroc/mixlab) from a JSON config and lands at
-**4.88 dB** and **6.78 dB** on the official validation split, averaged over three seeds. Then it gives the same U-Net
-a few extra input channels computed from the terrain (distance, a line-of-sight estimate, clearance). That brings it
-to **3.95 dB** and **5.24 dB**, with a shorter training run.
+This recipe rebuilds that model in [mixlab](https://github.com/mrothroc/mixlab) from a JSON config. It is the same
+model, not an approximation: it starts from the reference's own PyTorch initialization, and given the same weights its
+predictions stay within 0.005 dB of a float64 run of the organizers' code at every pixel we checked. Trained for
+150 + 50 epochs, it reaches **4.88 dB** and **6.78 dB** on the official validation split, averaged over three seeds.
+The published numbers are on the test set from an unstated number of epochs, so they're a reference point rather than
+a like-for-like target.
+
+Then it gives the same U-Net a few extra input channels computed from the terrain (distance, a line-of-sight estimate,
+clearance). That brings it to **3.95 dB** and **5.24 dB**, with a shorter training run.
 
 ## The two-step arc
 
@@ -35,7 +40,26 @@ weight seeds per model; `±` is the sample standard deviation across seeds.
 | **reproduction:** RadioWNet, 150 + 50 epochs | 4.88 ± 0.26 | 6.78 ± 0.34 |
 | the organizers' baseline, as published (test set) | 4.66 | 6.28 |
 
-### How close is the reproduction?
+### Is it the same model?
+
+Before comparing scores with anyone else's, we checked that mixlab computes the same function as the organizers' code.
+We loaded one trained checkpoint (415 MHz, seed 0) into their PyTorch module, ran it in float64 on the CPU as the
+reference, and compared every pixel of 80 validation maps. Largest difference from the reference at any pixel:
+
+| runtime | largest per-pixel difference |
+|---|---|
+| mixlab, Apple Silicon | 0.0036 dB |
+| mixlab, CUDA, strict FP32 | 0.0047 dB |
+| PyTorch, CPU, FP32 | 0.0029 dB |
+| PyTorch, CUDA, strict FP32 | 0.0898 dB |
+
+mixlab is about as close to the reference as PyTorch itself on the CPU. The same weights also score the same on both of
+mixlab's backends over the full validation split: 4.673 dB on Apple Silicon, 4.674 dB on CUDA. And the starting point
+is the reference's own: `make_init.py` builds the organizers' PyTorch initialization and converts it tensor for
+tensor. So the model and its arithmetic match. What the published numbers can't pin down is the training run: how
+long, which seeds, and which split. Both checks are in [`results/reproduce.json`](results/reproduce.json).
+
+### How close to the published numbers?
 
 We fixed what would count as a match before training: the three-seed average had to land within 0.5 dB of the
 published number in each band. At 415 MHz it lands 0.22 dB above. At 5.8 GHz it lands 0.497 dB above, only 0.003 dB
@@ -302,7 +326,7 @@ results/extend.json               per-seed extend scores, timings, and the match
   averages by less than 0.001 dB.
 - **Comparing with PyTorch.** If you load the weights into the reference module
   (`mixlab -mode export-torch-state` writes them) to compare outputs, do it on the CPU or in float64. On an RTX 4090,
-  PyTorch's own FP32 convolutions were the larger source of disagreement.
+  PyTorch's own FP32 convolutions were the larger source of disagreement (see the table above).
 
 ## Where to go next
 
